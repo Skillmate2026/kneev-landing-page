@@ -1,0 +1,28 @@
+@import "tailwindcss";
+
+@theme {
+  --color-brand-green: #1e463a;
+  --color-brand-orange: #e97724;
+  --color-brand-lightGreen: #00c34e;
+  --color-brand-bgCream: #f7f5ee;
+}
+
+body {
+  background-color: var(--color-brand-bgCream);
+  color: var(--color-brand-green);
+}
+
+/* Custom lead-gen button glow */
+.btn-glow {
+  box-shadow: 0 0 20px rgba(233, 119, 36, 0.3);
+}
+/* Add to your global CSS */
+@layer utilities {
+  .hide-scrollbar {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none; /* Chrome, Safari and Opera */
+  }
+}
