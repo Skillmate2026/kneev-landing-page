@@ -1,410 +1,774 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
+import Script from 'next/script';
 import { 
-  Phone, MapPin, Clock, Mail, CheckCircle, Star, 
+  Phone, MapPin, Clock, CheckCircle, Star, 
   Activity, ChevronDown, MessageSquare, 
-  Stethoscope, Award, HeartPulse, ShieldCheck, Check, Info, UploadCloud, Banknote
+  Stethoscope, Award, HeartPulse, Bone, ShieldCheck, 
+  UserCheck, ThumbsUp, ArrowRight, Video, Mail, Plus, Minus,
+  XCircle, CheckCircle2, FileText, IndianRupee, ShieldAlert, Building2
 } from 'lucide-react';
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
-export default function KneeReplacementLP() {
+
+import Header from '@/components/Header';
+import Footer from '@/components/Footer';
+import LeadForm from '@/components/LeadForm';
+
+export default function LandingPage() {
   const [heroSubmitted, setHeroSubmitted] = useState(false);
   const [footerSubmitted, setFooterSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  
+  const [utms, setUtms] = useState({
+    source: '', medium: '', campaign: '', term: '', content: ''
+  });
 
-  const handleFormSubmit = async (e, setSubmittedState) => {
+  // Safely parse UTM parameters on the client side
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search);
+      setUtms({
+        source: params.get('utm_source') || '',
+        medium: params.get('utm_medium') || '',
+        campaign: params.get('utm_campaign') || '',
+        term: params.get('utm_term') || '',
+        content: params.get('utm_content') || '',
+      });
+    }
+  }, []);
+
+  const formatPhoneForGoogle = (phone) => {
+    const cleaned = phone.replace(/\D/g, '');
+    return cleaned.length === 10 ? `+91${cleaned}` : `+${cleaned}`;
+  };
+
+  const pushToDataLayer = (formData, formLocation) => {
+    const userPhone = formData.get('phone') || '';
+    if (typeof window !== 'undefined') {
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({
+        event: 'form_submission_success',
+        form_location: formLocation,
+        enhanced_conversion_data: {
+          phone_number: formatPhoneForGoogle(userPhone),
+        },
+        utm_source: utms.source,
+        utm_medium: utms.medium,
+        utm_campaign: utms.campaign,
+      });
+    }
+  };
+
+  const handleFormSubmit = async (e, formName, setSubmittedState) => {
     e.preventDefault();
     setIsSubmitting(true);
     const formData = new FormData(e.target);
+    
     try {
-      const res = await fetch("https://api.web3forms.com/submit", { method: "POST", body: formData });
-      if (res.ok) setSubmittedState(true);
-    } catch (err) { console.error("Form submission failed", err); }
-    setIsSubmitting(false);
+      const res = await fetch("https://api.web3forms.com/submit", { 
+        method: "POST", 
+        body: formData 
+      });
+      
+      if (res.ok) {
+        setSubmittedState(true);
+        pushToDataLayer(formData, formName);
+      } else {
+        console.error("Form submission failed", await res.text());
+      }
+    } catch (err) {
+      console.error("Form submission failed", err);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const schemaMarkup = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "MedicalClinic",
+        "name": "Skillmate Kneev Orthopaedic Centre",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "Ground floor, 334/28, 14th Cross Rd, 2nd Block, Jayanagar",
+          "addressLocality": "Bengaluru",
+          "addressRegion": "Karnataka",
+          "postalCode": "560011",
+          "addressCountry": "IN"
+        },
+        "telephone": "+916366700736",
+        "url": "https://kneev.in",
+        "medicalSpecialty": "Orthopedic"
+      },
+      {
+        "@type": "Physician",
+        "name": "Dr. Amith P. Shetty",
+        "jobTitle": "Orthopaedic Surgeon",
+        "medicalSpecialty": "Orthopaedics",
+        "worksFor": {
+          "@type": "MedicalClinic",
+          "name": "Skillmate Kneev Orthopaedic Centre"
+        }
+      }
+    ]
   };
 
   return (
-    <div className="min-h-screen bg-brand-bgCream font-sans overflow-x-hidden text-brand-green">
-      
-       {/* HEADER */}
+    <div className="min-h-screen bg-[#FDFCF8] selection:bg-[#E97724] selection:text-white font-sans overflow-x-hidden pb-24 md:pb-0">
+      <Script id="schema-markup" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaMarkup) }} />
       <Header />
 
-      {/* 1. HERO SECTION (SEO Optimized for Second Opinion) */}
-      <section className="relative pt-8 pb-14 sm:pt-10 sm:pb-16 md:pt-16 md:pb-24 px-4 sm:px-6 bg-brand-bgCream overflow-hidden">
-        <div className="max-w-7xl mx-auto grid lg:grid-cols-12 gap-8 md:gap-10 lg:gap-16 items-center">
-          <div className="lg:col-span-7 space-y-6 text-center lg:text-left">
-            <div className="inline-flex items-center bg-brand-orange/10 text-brand-orange px-4 py-2 rounded-full text-xs md:text-sm font-black uppercase tracking-widest border border-brand-orange/20">
-              Knee Replacement Second Opinion
+      {/* 1. HERO SECTION */}
+      <section className="relative pt-6 pb-12 md:pt-12 md:pb-16 px-4 overflow-hidden bg-cover bg-center bg-no-repeat" style={{ backgroundImage: "url('/cond-acl.png')" }}>
+        <div className="absolute inset-0 bg-gradient-to-r from-[#FDFCF8] via-[#FDFCF8]/90 to-[#1A332F]/40 z-0"></div>
+        <div className="absolute inset-0 bg-[#E97724]/5 mix-blend-multiply z-0"></div>
+
+        <div className="max-w-7xl mx-auto grid lg:grid-cols-12 gap-8 md:gap-12 items-center relative z-10">
+          <div className="lg:col-span-7 space-y-5 md:space-y-6 text-center md:text-left">
+            
+            <div className="inline-flex items-center bg-white/80 backdrop-blur-sm text-[#1A332F] px-4 py-1.5 rounded-full text-xs md:text-sm font-bold uppercase tracking-wide border border-[#1A332F]/10 shadow-sm">
+              <Star className="w-4 h-4 mr-2 text-[#E97724] fill-current" />
+              Trusted by 2,500+ Patients in Bengaluru
             </div>
             
-            {/* Primary Keyword in H1 visually integrated with screenshot design */}
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-gray-900 leading-tight sm:leading-tight">
-              Considering Knee Replacement? <br/>
-              <span className="text-brand-green">Get a Second Opinion First.</span>
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-[#1A332F] leading-[1.15] tracking-tight">
+              Considering Knee Replacement?<br />
+              <span className="text-[#E97724] relative whitespace-nowrap mt-2 block sm:inline-block">
+                Get a Second Opinion First
+                <svg className="absolute w-full h-2 md:h-3 -bottom-1 left-0 text-[#E97724]/30" viewBox="0 0 100 10" preserveAspectRatio="none"><path d="M0 5 Q 50 10 100 5" stroke="currentColor" strokeWidth="3" fill="transparent"/></svg>
+              </span>
             </h1>
             
-            <p className="text-base sm:text-lg md:text-xl text-gray-700 font-medium leading-relaxed max-w-2xl mx-auto lg:mx-0">
-              Consult the <strong className="text-brand-orange font-black">best knee replacement surgeon in Bangalore</strong>. Many knee conditions improve without surgery. Every patient at KNEEV undergoes a structured clinical evaluation before knee replacement is ever recommended.
+            <p className="text-base sm:text-lg text-gray-800 leading-relaxed max-w-2xl mx-auto md:mx-0 font-medium bg-white/40 p-2 rounded-lg inline-block">
+              <strong>Over 80% of our patients successfully avoid surgery</strong>. At Kneev, conservative care always comes first. Dr. Amith takes the time to find the real root cause of your pain. Get an honest clinical assessment for just <span className="font-black text-[#E97724] text-lg bg-[#E97724]/10 px-1.5 rounded">₹600</span>.
             </p>
 
-            <p className="text-brand-green font-bold bg-white inline-block px-4 py-2 rounded-lg shadow-sm border border-gray-100">
-              <CheckCircle className="inline w-5 h-5 text-brand-orange mr-2 mb-0.5" />
-              90% of our early-stage patients avoid surgery completely.
-            </p>
+            <div className="flex flex-col sm:flex-row gap-4 md:gap-6 pt-2 justify-center md:justify-start">
+              <div className="flex items-start space-x-2.5 text-left bg-white/50 backdrop-blur-sm p-2 rounded-lg border border-white/50">
+                <CheckCircle className="w-5 h-5 text-[#E97724] flex-shrink-0 mt-0.5" />
+                <span className="font-bold text-sm md:text-base text-[#1A332F] leading-tight">Conservative Care First:<br/><span className="text-gray-600 font-medium text-xs md:text-sm">Surgery is a last resort.</span></span>
+              </div>
+              <div className="flex items-start space-x-2.5 text-left bg-white/50 backdrop-blur-sm p-2 rounded-lg border border-white/50">
+                <CheckCircle className="w-5 h-5 text-[#E97724] flex-shrink-0 mt-0.5" />
+                <span className="font-bold text-sm md:text-base text-[#1A332F] leading-tight">We Actually Listen:<br/><span className="text-gray-600 font-medium text-xs md:text-sm">No rushed appointments.</span></span>
+              </div>
+            </div>
           </div>
 
-          {/* 5-Field Lead Form */}
-          <div id="booking" className="lg:col-span-5 bg-white p-6 md:p-8 rounded-[32px] shadow-2xl border border-gray-100 relative mt-6 lg:mt-0">
-            <div className="absolute top-0 left-0 w-full h-2 bg-brand-orange rounded-t-[32px]"></div>
-            
-            {heroSubmitted ? (
-              <div className="text-center py-12 animate-in zoom-in duration-500">
-                <div className="w-20 h-20 bg-[#00c34e] rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg shadow-green-200">
-                  <Check className="w-10 h-10 text-white" />
-                </div>
-                <h3 className="text-3xl font-black text-brand-green">Evaluation Requested!</h3>
-                <p className="text-gray-600 font-medium mt-2">Dr. Amith's team will contact you shortly to confirm your MRI review slot.</p>
+          <div id="booking-form" className="lg:col-span-5 relative w-full max-w-md mx-auto lg:mx-0 lg:ml-auto mt-6 lg:mt-0">
+            <div className="bg-white/95 backdrop-blur-md p-6 md:p-8 rounded-[2rem] shadow-2xl border border-white relative z-10 flex flex-col justify-center">
+              <div className="mb-4 text-center md:text-left">
+                <h3 className="text-xl md:text-2xl font-black text-[#1A332F]">Book Your Assessment</h3>
+                <p className="text-gray-500 text-xs md:text-sm font-medium mt-1">Priority slots available for local residents.</p>
               </div>
-            ) : (
-              <>
-                <h3 className="text-2xl font-black mb-2 text-brand-green">Book Your Assessment</h3>
-                <p className="text-gray-500 text-sm mb-6 font-medium">Clear, honest advice. Assessment for just ₹600.</p>
-                
-                <form onSubmit={(e) => handleFormSubmit(e, setHeroSubmitted)} className="space-y-4">
-                  <input type="hidden" name="access_key" value="YOUR_ACCESS_KEY_HERE" />
-                  <input type="hidden" name="subject" value="Knee Replacement Second Opinion Lead!" />
-                  
-                  {/* Field 1 & 2 */}
-                  <div className="grid grid-cols-2 gap-4">
-                    <input type="text" name="name" placeholder="Full Name" required className="w-full p-3.5 bg-gray-50 rounded-xl border border-gray-200 focus:ring-2 focus:ring-brand-orange outline-none font-medium text-brand-green" />
-                    <input type="tel" name="phone" placeholder="Phone Number" required className="w-full p-3.5 bg-gray-50 rounded-xl border border-gray-200 focus:ring-2 focus:ring-brand-orange outline-none font-medium text-brand-green" />
-                  </div>
-                  
-                  {/* Field 3 & 4 */}
-                  <div className="grid grid-cols-2 gap-4">
-                    <input type="number" name="age" placeholder="Patient Age" required min="10" max="100" className="w-full p-3.5 bg-gray-50 rounded-xl border border-gray-200 focus:ring-2 focus:ring-brand-orange outline-none font-medium text-brand-green" />
-                    <select name="has_mri" required className="w-full p-3.5 bg-gray-50 rounded-xl border border-gray-200 focus:ring-2 focus:ring-brand-orange outline-none font-medium text-brand-green">
-                      <option value="" disabled selected>Have MRI Report?</option>
-                      <option value="Yes">Yes, I have an MRI</option>
-                      <option value="No">No MRI yet</option>
-                    </select>
-                  </div>
-
-                  {/* Field 5 */}
-                  <div>
-                    <textarea name="description" rows="2" placeholder="Briefly describe your knee pain..." required className="w-full p-3.5 bg-gray-50 rounded-xl border border-gray-200 focus:ring-2 focus:ring-brand-orange outline-none font-medium text-brand-green resize-none"></textarea>
-                  </div>
-
-                  <button type="submit" disabled={isSubmitting} className="w-full bg-brand-orange text-white py-4 mt-2 rounded-xl font-black text-lg hover:bg-opacity-90 transition uppercase tracking-wider shadow-lg disabled:opacity-70">
-                    {isSubmitting ? 'Sending...' : 'Request Second Opinion'}
-                  </button>
-                </form>
-              </>
-            )}
+              <LeadForm onSubmit={(e) => handleFormSubmit(e, 'Hero Form', setHeroSubmitted)} />
+            </div>
           </div>
         </div>
       </section>
 
       {/* 2. TRUST STRIP */}
-      <section className="bg-brand-green py-10 px-4 border-t-4 border-brand-orange">
-        <div className="max-w-7xl mx-auto grid grid-cols-2 lg:grid-cols-4 gap-6 text-center text-white">
-          <div><div className="text-3xl lg:text-4xl font-black text-brand-orange">17+</div><div className="text-[10px] lg:text-xs uppercase font-bold tracking-widest mt-1">Years Surgical Expertise</div></div>
-          <div><div className="text-3xl lg:text-4xl font-black text-brand-orange">2,500+</div><div className="text-[10px] lg:text-xs uppercase font-bold tracking-widest mt-1">Successful Surgeries</div></div>
-          <div><div className="text-3xl lg:text-4xl font-black text-brand-orange">4.9/5</div><div className="text-[10px] lg:text-xs uppercase font-bold tracking-widest mt-1">Google Rating</div></div>
-          <div><div className="text-3xl lg:text-4xl font-black text-brand-orange">112+</div><div className="text-[10px] lg:text-xs uppercase font-bold tracking-widest mt-1">Verified Reviews</div></div>
-        </div>
-      </section>
-
-      {/* 3. ORANGE QUOTE BLOCK (Recreated from screenshot) */}
-      <section className="py-16 px-4 bg-brand-bgCream">
-        <div className="max-w-5xl mx-auto bg-brand-orange text-white p-10 md:p-16 rounded-[40px] text-center shadow-2xl">
-          <h2 className="text-3xl md:text-5xl font-black leading-tight mb-6">"Some Patients Need Surgery. <br/>Many Need Better Evaluation"</h2>
-          <p className="text-base md:text-xl font-medium leading-relaxed opacity-90 max-w-3xl mx-auto">
-            At KNEEV, treatment starts with identifying the actual cause of pain — not immediately recommending surgery. Many knee conditions improve through rehabilitation, injections, strengthening, weight correction, or movement retraining.
-          </p>
-        </div>
-      </section>
-
-      {/* 4. IS IT THE RIGHT CALL? (Grid matched to screenshot) */}
-      <section className="py-20 px-4 bg-white">
-        <div className="max-w-7xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-black text-center mb-12">When Surgery May Actually Be Necessary</h2>
-          <div className="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto mb-20">
+      <section className="bg-[#1A332F] py-6 md:py-8 px-4 relative overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,#2A524B,transparent_70%)] opacity-50" />
+        <div className="max-w-7xl mx-auto relative z-10 border border-white/5 bg-white/[0.02] rounded-2xl p-2 md:p-3 shadow-[inset_0_1px_1px_rgba(255,255,255,0.05)]">
+          <div className="flex overflow-x-auto hide-scrollbar snap-x snap-mandatory lg:grid lg:grid-cols-4 lg:divide-x lg:divide-white/10 gap-2 lg:gap-0">
             {[
-              { t: "Severe arthritis", d: "Bone-on-bone degeneration affecting movement.", color: "bg-brand-orange" },
-              { t: "Persistent pain", d: "Pain continues despite rehab and medication.", color: "bg-brand-green" },
-              { t: "Loss of mobility", d: "Difficulty walking, climbing stairs, or standing.", color: "bg-brand-green" },
-              { t: "Failed conservative care", d: "Physiotherapy and injections no longer helping.", color: "bg-brand-orange" }
-            ].map((card, i) => (
-              <div key={i} className={`${card.color} text-white p-6 rounded-2xl flex items-start space-x-4 shadow-md`}>
-                <CheckCircle className="w-8 h-8 flex-shrink-0 opacity-80" />
+              { metric: "17", label: "Years Experience" },
+              { metric: "2,500", label: "Patients Recovered" },
+              { metric: "4.9", label: "Google Rating", isStars: true },
+              { metric: "112", label: "5-Star Reviews" },
+            ].map((item, idx) => (
+              <div key={idx} className="flex-shrink-0 w-[55%] sm:w-[40%] lg:w-full snap-center py-3 px-2 flex flex-col items-center justify-center text-center transition-all duration-300 hover:bg-white/[0.03] rounded-xl lg:rounded-none">
+                {item.isStars ? (
+                  <div className="flex flex-col items-center mb-1.5">
+                    <span className="text-3xl md:text-4xl font-extrabold text-white tracking-tight leading-none">{item.metric}</span>
+                    <div className="flex mt-1 gap-0.5">
+                      {[...Array(5)].map((_, i) => <Star key={i} className="w-3 h-3 md:w-4 md:h-4 text-[#E97724] fill-current" />)}
+                    </div>
+                  </div>
+                ) : (
+                  <div className="text-3xl md:text-4xl font-extrabold text-white mb-1.5 flex items-baseline tracking-tight leading-none">
+                    {item.metric}<span className="text-[#E97724] text-xl md:text-2xl font-bold ml-0.5">+</span>
+                  </div>
+                )}
+                <div className="w-8 h-px bg-white/10 mb-2 mt-1" />
+                <div className="text-[10px] md:text-xs font-medium text-white/70 tracking-widest uppercase">{item.label}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 3 & 4. IS VS IS NOT THE RIGHT CALL */}
+      <section className="py-12 md:py-16 px-4 bg-white relative">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-10 md:mb-14 space-y-3">
+            <h2 className="text-2xl md:text-3xl lg:text-4xl font-black tracking-tight text-[#1A332F]">
+              An Honest Diagnosis. No Unnecessary Surgeries.
+            </h2>
+            <p className="text-sm md:text-base text-gray-600 max-w-2xl mx-auto font-medium">
+              We look at your lifestyle, not just your MRI. Here is how we evaluate if joint replacement is actually required.
+            </p>
+          </div>
+          
+          <div className="grid md:grid-cols-2 gap-6 lg:gap-10">
+            {/* NOT the right call */}
+            <div className="bg-[#F3F6F4] rounded-2xl p-6 md:p-8 border border-gray-200 shadow-sm relative overflow-hidden">
+              <div className="absolute top-0 right-0 w-24 h-24 bg-[#E97724]/5 rounded-bl-full" />
+              <div className="flex items-center gap-3 mb-6 relative z-10">
+                <XCircle className="w-8 h-8 text-[#E97724]" />
+                <h3 className="text-xl md:text-2xl font-black text-[#1A332F]">When Surgery is <span className="text-[#E97724] underline decoration-4 underline-offset-4">NOT</span> Needed</h3>
+              </div>
+              <ul className="space-y-4 relative z-10">
+                {[
+                  "Mild to moderate arthritis with preserved joint space.",
+                  "Pain is mostly muscular or ligament-based (identifiable via 360° map).",
+                  "You haven't yet tried a dedicated, personalized physiotherapy program.",
+                  "Pain is manageable with lifestyle modifications and occasional medication."
+                ].map((text, i) => (
+                  <li key={i} className="flex items-start">
+                    <CheckCircle2 className="w-5 h-5 text-gray-400 mr-3 mt-0.5 flex-shrink-0" />
+                    <span className="text-gray-700 text-sm md:text-base font-medium leading-relaxed">{text}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* IS the right call */}
+            <div className="bg-[#1A332F] rounded-2xl p-6 md:p-8 shadow-xl relative overflow-hidden text-white">
+              <div className="absolute top-0 right-0 w-24 h-24 bg-white/5 rounded-bl-full" />
+              <div className="flex items-center gap-3 mb-6 relative z-10">
+                <CheckCircle2 className="w-8 h-8 text-[#E97724]" />
+                <h3 className="text-xl md:text-2xl font-black text-white">When Surgery <span className="text-[#E97724]">IS</span> the Right Call</h3>
+              </div>
+              <ul className="space-y-4 relative z-10">
+                {[
+                  "Bone-on-bone arthritis causing severe, constant pain even at rest.",
+                  "Significant joint deformity (severely bowlegged or knock-kneed).",
+                  "Conservative treatments (physio, injections) have completely failed.",
+                  "Inability to perform basic daily activities like walking or sleeping."
+                ].map((text, i) => (
+                  <li key={i} className="flex items-start">
+                    <CheckCircle2 className="w-5 h-5 text-[#E97724] mr-3 mt-0.5 flex-shrink-0" />
+                    <span className="text-white/90 text-sm md:text-base font-medium leading-relaxed">{text}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 5. DR AMIT SURGICAL CREDENTIALS */}
+      <section id="doctor" className="py-10 md:py-14 px-4 bg-white border-b border-gray-100">
+        <div className="max-w-5xl mx-auto bg-[#FDFCF8] rounded-[2rem] shadow-[0_8px_30px_rgb(0,0,0,0.06)] border border-gray-100 overflow-hidden flex flex-col md:flex-row">
+          
+          {/* Image Side */}
+          <div className="md:w-2/5 relative h-[350px] md:h-auto flex-shrink-0">
+            <Image 
+              src="/dr.JPG" 
+              alt="Dr. Amith P. Shetty - Orthopedic Doctor" 
+              fill
+              className="object-cover object-top"
+            />
+            {/* Mobile-only name overlay so it sits nicely on the image */}
+            <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-[#1A332F] via-[#1A332F]/80 to-transparent p-5 pt-12 md:hidden">
+              <h3 className="text-white font-black text-2xl">Dr. Amith P. Shetty</h3>
+              <p className="text-[#E97724] font-bold text-xs uppercase tracking-wider mt-1">Lead Orthopedic Surgeon</p>
+            </div>
+          </div>
+          
+          {/* Text Side */}
+          <div className="md:w-3/5 p-6 md:p-8 lg:p-10 flex flex-col justify-center">
+            
+            {/* Desktop Header */}
+            <div className="hidden md:block mb-5">
+              <h2 className="text-2xl md:text-3xl lg:text-4xl font-black text-[#1A332F] leading-tight">
+                Dr. Amith P. Shetty
+              </h2>
+              <p className="text-[#E97724] font-bold text-xs lg:text-sm uppercase tracking-wider mt-1.5">
+                Lead Orthopedic Surgeon
+              </p>
+            </div>
+      
+            {/* Quote Block */}
+            <blockquote className="border-l-4 border-[#E97724] pl-4 my-2 md:mb-6">
+              <p className="text-sm md:text-base text-gray-600 font-medium italic leading-relaxed">
+                "Treat the patient, not just the MRI. Most joint issues resolve with lifestyle corrections and targeted physiotherapy. Surgery is strictly for when it's absolutely necessary to restore your quality of life."
+              </p>
+            </blockquote>
+            
+            {/* Credentials List (Compacted) */}
+            <div className="mt-6 md:mt-0 space-y-3 bg-white p-4 md:p-5 rounded-xl border border-gray-100 shadow-sm">
+              <h4 className="font-bold text-[#1A332F] text-sm flex items-center border-b border-gray-100 pb-2 mb-3 uppercase tracking-wide">
+                <Award className="w-4 h-4 mr-2 text-[#E97724]" /> Credentials & Trust
+              </h4>
+              <ul className="space-y-2.5 text-xs md:text-sm text-gray-700 font-medium">
+                <li className="flex items-start">
+                  <CheckCircle className="w-4 h-4 text-[#E97724] mr-2.5 flex-shrink-0 mt-0.5" />
+                  <span><strong>MBBS, MS Orthopaedics</strong> with extensive hands-on surgical training.</span>
+                </li>
+                <li className="flex items-start">
+                  <CheckCircle className="w-4 h-4 text-[#E97724] mr-2.5 flex-shrink-0 mt-0.5" />
+                  <span><strong>Dip SICOT (Belgium) & FIJR (Germany)</strong> specializing in complex joint reconstruction.</span>
+                </li>
+                <li className="flex items-start">
+                  <CheckCircle className="w-4 h-4 text-[#E97724] mr-2.5 flex-shrink-0 mt-0.5" />
+                  <span><strong>17+ Years Experience</strong> handling degenerative diseases and sports injuries.</span>
+                </li>
+              </ul>
+            </div>
+            
+          </div>
+        </div>
+      </section>
+      
+      {/* 6. YOUR SECOND-OPINION PROCESS */}
+      <section className="py-10 md:py-16 px-4 bg-white relative border-b border-gray-100">
+        <div className="max-w-5xl mx-auto">
+          <div className="text-center mb-10 md:mb-12">
+            <h2 className="text-2xl md:text-3xl lg:text-4xl font-black text-[#1A332F] tracking-tight">
+              Your Second-Opinion Process at Kneev
+            </h2>
+            <p className="text-sm md:text-base text-gray-600 font-medium mt-2 max-w-xl mx-auto">
+              A transparent, pressure-free path to understanding your real treatment options.
+            </p>
+          </div>
+
+          <div className="relative">
+            <div className="hidden md:block absolute top-5 left-[12%] right-[12%] h-[2px] bg-gradient-to-r from-transparent via-[#E97724]/40 to-transparent z-0"></div>
+            <div className="md:hidden absolute top-4 bottom-4 left-[19px] w-[2px] bg-[#E97724]/20 z-0"></div>
+
+            <div className="flex flex-col md:flex-row justify-between gap-8 md:gap-4 relative z-10">
+              {[
+                { step: "1", title: "Book Appointment", desc: "Reserve your slot online to ensure dedicated time with the doctor." },
+                { step: "2", title: "Bring Your MRI", desc: "Bring your existing scans and reports to avoid repeating expensive tests." },
+                { step: "3", title: "Physical Exam & Review", desc: "Dr. Amit performs a detailed manual check and correlates it with your scans." },
+                { step: "4", title: "Treatment Plan", desc: "Leave with a transparent, honest diagnosis with zero pressure to opt for surgery." }
+              ].map((item, idx) => (
+                <div key={idx} className="flex md:flex-col items-start md:items-center text-left md:text-center group relative w-full">
+                  <div className="flex-shrink-0 w-10 h-10 md:w-12 md:h-12 rounded-full bg-white border-2 border-[#E97724] text-[#E97724] flex items-center justify-center font-black text-base shadow-[0_0_15px_rgba(233,119,36,0.1)] group-hover:bg-[#E97724] group-hover:text-white transition-all duration-300 z-10 mb-0 md:mb-4 mr-4 md:mr-0 group-hover:scale-110">
+                    {item.step}
+                  </div>
+                  <div className="flex-1 mt-0.5 md:mt-0 px-0 md:px-2">
+                    <h4 className="font-bold text-base md:text-lg text-[#1A332F] leading-tight mb-1.5">{item.title}</h4>
+                    <p className="text-sm text-gray-600 font-medium leading-relaxed">{item.desc}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+{/* 7. PRICING TRANSPARENCY */}
+      <section className="py-10 md:py-14 px-4 bg-[#F3F6F4] relative border-b border-gray-100">
+        <div className="max-w-4xl mx-auto">
+          
+          <div className="text-center mb-6 md:mb-10">
+            <h2 className="text-2xl md:text-3xl lg:text-4xl font-black text-[#1A332F] tracking-tight">
+              Pricing Transparency
+            </h2>
+            <p className="text-sm md:text-base text-gray-600 font-medium mt-2 max-w-xl mx-auto">
+              No hidden fees. We believe you should know exactly what to expect before you walk in.
+            </p>
+          </div>
+
+          {/* The "Pricing Board" - Mobile: Vertical List | Desktop: Horizontal Row */}
+          <div className="bg-white rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100 overflow-hidden flex flex-col md:flex-row">
+            
+            {/* 1. Clinical Consultation */}
+            <div className="flex-1 p-5 md:p-8 flex flex-row md:flex-col items-center justify-between md:justify-center border-b md:border-b-0 md:border-r border-gray-100 hover:bg-[#FDFCF8] transition-colors duration-300 group cursor-default">
+              <div className="flex items-center gap-4 md:flex-col md:gap-3 text-left md:text-center">
+                <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-[#1A332F]/5 flex items-center justify-center group-hover:scale-110 group-hover:bg-[#1A332F]/10 transition-all duration-300 flex-shrink-0">
+                  <Stethoscope className="w-5 h-5 md:w-6 md:h-6 text-[#1A332F]" />
+                </div>
                 <div>
-                  <h4 className="text-xl font-black mb-1">{card.t}</h4>
-                  <p className="text-sm font-medium opacity-90">{card.d}</p>
+                  <h4 className="font-bold text-[#1A332F] text-sm md:text-base leading-tight">Clinical Consultation</h4>
+                  <p className="text-xs text-gray-500 font-medium mt-1 hidden md:block">Complete assessment & second opinion.</p>
                 </div>
               </div>
-            ))}
-          </div>
-
-          <h2 className="text-3xl md:text-4xl font-black text-center mb-12">When Knee Replacement is <span className="text-red-600 underline decoration-red-200">NOT</span> the Right Call</h2>
-          <div className="grid md:grid-cols-4 gap-6 max-w-6xl mx-auto">
-            {[
-              { t: "Early Stage Wear", d: "Joint space is still preserved on standing X-rays." },
-              { t: "Meniscus Tears", d: "Often manageable with arthroscopic repair or targeted rehab." },
-              { t: "Muscle Imbalance", d: "Knee pain caused purely by weak quads or glutes." },
-              { t: "Pain Improves with Rest", d: "Symptoms are intermittent, not constant or chronic." }
-            ].map((card, i) => (
-              <div key={i} className="bg-brand-bgCream border border-gray-200 p-6 rounded-2xl text-center shadow-sm">
-                <ShieldCheck className="w-10 h-10 text-brand-orange mx-auto mb-4" />
-                <h4 className="text-lg font-black text-brand-green mb-2">{card.t}</h4>
-                <p className="text-sm text-gray-600 font-medium">{card.d}</p>
+              <div className="text-right md:text-center md:mt-3 flex-shrink-0">
+                <div className="text-lg md:text-2xl font-black text-[#E97724]">₹600</div>
+                <p className="text-[10px] text-gray-400 font-medium md:hidden mt-0.5 uppercase tracking-wide">Assessment</p>
               </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* 5. DOCTOR BIO (Surgical Focus) */}
-      <section className="py-20 px-4 bg-brand-bgCream border-y border-gray-200">
-        <div className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-          <div className="relative border-8 border-white rounded-[40px] overflow-hidden shadow-2xl">
-            <Image src="/dr.JPG" alt="Dr. Amith P. Shetty - Knee Replacement Surgeon Bangalore" width={600} height={700} className="w-full object-cover aspect-[4/5]" />
-          </div>
-          <div className="space-y-6">
-            <div>
-              <h2 className="text-4xl font-black text-brand-green">Dr. Amith P. Shetty</h2>
-              <p className="text-sm font-bold text-gray-500 uppercase tracking-widest mt-1">MBBS, MS Ortho, Dip SICOT, FIJR</p>
-              <p className="text-lg font-black text-brand-orange mt-2">Top Knee Replacement Surgeon in Bangalore</p>
             </div>
             
-            <p className="text-gray-700 font-medium leading-relaxed">
-              Dr. Amith combines elite surgical precision with strict ethical standards. He holds a Fellowship in Joint Replacement (FIJR) from Germany and has successfully navigated complex, high-volume robotic and conventional total knee replacements. He operates only when clinically undeniable.
-            </p>
-            
-            <ul className="space-y-4 font-bold text-sm text-brand-green bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-              <li className="flex"><Award className="w-5 h-5 text-brand-orange mr-3 flex-shrink-0" /> Over a decade of clinical experience in joint replacement</li>
-              <li className="flex"><CheckCircle className="w-5 h-5 text-brand-orange mr-3 flex-shrink-0" /> Trained in high-volume settings for complex and revision cases</li>
-              <li className="flex"><Activity className="w-5 h-5 text-brand-orange mr-3 flex-shrink-0" /> Expert in Partial, Total, and Robotic Knee Replacement surgery</li>
-              <li className="flex"><ShieldCheck className="w-5 h-5 text-brand-orange mr-3 flex-shrink-0" /> Strict conservative-first evaluation philosophy</li>
-            </ul>
-          </div>
-        </div>
-      </section>
-
-      {/* 6. SECOND OPINION PROCESS */}
-      <section className="py-20 px-4 bg-white">
-        <div className="max-w-7xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-black text-center mb-16">Your Second-Opinion Process at KNEEV</h2>
-          <div className="grid md:grid-cols-4 gap-8 relative">
-            <div className="hidden md:block absolute top-10 left-[10%] right-[10%] h-1 bg-brand-bgCream z-0"></div>
-            {[
-              { s: "1", t: "Book Slot", d: "Secure your ₹600 evaluation appointment online." },
-              { s: "2", t: "Bring MRI", d: "Bring your existing X-rays and MRI reports for review." },
-              { s: "3", t: "Clinical Exam", d: "Dr. Amith performs a hands-on physical and biomechanical exam." },
-              { s: "4", t: "Honest Plan", d: "Receive a transparent verdict: Rehab, Injection, or Surgery." }
-            ].map((step, i) => (
-              <div key={i} className="relative z-10 text-center">
-                <div className="w-20 h-20 mx-auto bg-brand-orange text-white rounded-full flex items-center justify-center text-3xl font-black border-4 border-white shadow-xl mb-4">{step.s}</div>
-                <h4 className="text-xl font-black text-brand-green mb-2">{step.t}</h4>
-                <p className="text-sm font-medium text-gray-600">{step.d}</p>
+            {/* 2. Digital Diagnostics */}
+            <div className="flex-1 p-5 md:p-8 flex flex-row md:flex-col items-center justify-between md:justify-center border-b md:border-b-0 md:border-r border-gray-100 hover:bg-[#FDFCF8] transition-colors duration-300 group cursor-default">
+              <div className="flex items-center gap-4 md:flex-col md:gap-3 text-left md:text-center">
+                <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-[#1A332F]/5 flex items-center justify-center group-hover:scale-110 group-hover:bg-[#1A332F]/10 transition-all duration-300 flex-shrink-0">
+                  <Video className="w-5 h-5 md:w-6 md:h-6 text-[#1A332F]" />
+                </div>
+                <div>
+                  <h4 className="font-bold text-[#1A332F] text-sm md:text-base leading-tight">Digital Diagnostics</h4>
+                  <p className="text-xs text-gray-500 font-medium mt-1 hidden md:block">X-Rays done on-site if required.</p>
+                </div>
               </div>
-            ))}
+              <div className="text-right md:text-center md:mt-3 flex-shrink-0">
+                <div className="text-sm md:text-lg font-bold text-[#E97724]">Standard Rates</div>
+                <p className="text-[10px] text-gray-400 font-medium md:hidden mt-0.5 uppercase tracking-wide">Lab Fees</p>
+              </div>
+            </div>
+
+            {/* 3. Knee Replacement (Highlighted) */}
+            <div className="flex-1 p-5 md:p-8 flex flex-row md:flex-col items-center justify-between md:justify-center hover:bg-[#E97724]/[0.02] transition-colors duration-300 group cursor-default relative overflow-hidden">
+              {/* Highlight Bar: Left on Mobile, Top on Desktop */}
+              <div className="absolute left-0 top-0 w-1.5 h-full md:w-full md:h-1.5 bg-[#E97724]"></div>
+              
+              <div className="flex items-center gap-4 md:flex-col md:gap-3 text-left md:text-center pl-2 md:pl-0">
+                <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-[#E97724]/10 flex items-center justify-center group-hover:scale-110 group-hover:bg-[#E97724]/20 transition-all duration-300 flex-shrink-0">
+                  <IndianRupee className="w-5 h-5 md:w-6 md:h-6 text-[#E97724]" />
+                </div>
+                <div>
+                  <h4 className="font-bold text-[#1A332F] text-sm md:text-base leading-tight">Knee Replacement</h4>
+                  <p className="text-xs text-gray-500 font-medium mt-1 hidden md:block leading-tight px-2">Dependent on implant & approach.</p>
+                </div>
+              </div>
+              <div className="text-right md:text-center md:mt-3 flex-shrink-0">
+                <div className="text-base md:text-lg font-black text-[#E97724]">₹1.5L - ₹3.5L</div>
+                <p className="text-[10px] text-gray-400 font-medium md:hidden mt-0.5 uppercase tracking-wide">Estimated</p>
+              </div>
+            </div>
+
           </div>
         </div>
       </section>
-
-      {/* 7. PRICING TRANSPARENCY & INSURANCE */}
-      <section className="py-20 px-4 bg-brand-green text-white">
-        <div className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-12">
-          <div className="bg-white/10 p-8 rounded-3xl border border-white/20 backdrop-blur-sm">
-            <Banknote className="w-12 h-12 text-brand-orange mb-6" />
-            <h2 className="text-3xl font-black mb-6">Pricing Transparency</h2>
-            <ul className="space-y-4 font-medium">
-              <li className="flex justify-between border-b border-white/20 pb-4">
-                <span>Expert Consultation & Second Opinion</span>
-                <span className="font-black text-brand-orange">₹600</span>
-              </li>
-              <li className="flex justify-between border-b border-white/20 pb-4">
-                <span>Digital X-Ray / Diagnostics</span>
-                <span className="font-black">Standard Lab Rates</span>
-              </li>
-              <li className="flex justify-between pb-2">
-                <span>Knee Replacement Surgery Cost</span>
-                <span className="font-black text-brand-orange">Discussed Post-Exam*</span>
-              </li>
-            </ul>
-            <p className="text-xs text-white/60 mt-4 italic">*Total knee replacement cost in Bangalore varies based on implant choice (Indian vs Imported) and surgical technique (Conventional vs Robotic). Accurate quotes provided only after clinical assessment.</p>
-          </div>
-
-          <div className="space-y-8">
-            <div>
-              <h2 className="text-3xl font-black mb-4">Cashless Insurance Accepted</h2>
-              <p className="text-white/80 font-medium leading-relaxed">We support complete paperwork and claim processing for major surgical interventions, ensuring a hassle-free admission and discharge process.</p>
-            </div>
-            <div className="flex flex-wrap gap-4">
-              <span className="bg-white text-brand-green px-4 py-2 rounded-lg font-black text-sm">STAR HEALTH</span>
-              <span className="bg-white text-brand-green px-4 py-2 rounded-lg font-black text-sm">HDFC ERGO</span>
-              <span className="bg-white text-brand-green px-4 py-2 rounded-lg font-black text-sm">ICICI LOMBARD</span>
-              <span className="bg-white text-brand-green px-4 py-2 rounded-lg font-black text-sm">BAJAJ ALLIANZ</span>
-              <span className="bg-white text-brand-green px-4 py-2 rounded-lg font-black text-sm">NIVA BUPA</span>
-            </div>
-          </div>
-        </div>
-      </section>
+      
 
       {/* 8. INTEGRATED SERVICES STRIP */}
-      <section className="bg-brand-orange py-10 px-4 text-center text-white">
-        <h3 className="text-xl md:text-2xl font-black uppercase tracking-wider">
-          Post-Op Physio • Digital X-Ray • 360° Motion Map
-        </h3>
-        <p className="font-medium mt-2">All at the same clinic. No running around for external referrals.</p>
+      <section className="bg-[#1A332F] py-8 px-4 text-white">
+        <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-center text-center gap-6 md:gap-12">
+          <div className="flex-1">
+            <h3 className="text-xl md:text-2xl font-black mb-2">Everything You Need, Under One Roof</h3>
+            <p className="text-sm md:text-base text-white/80 font-medium">
+              Post-op physio, digital X-ray, and 360° Motion Mapping — all at the same clinic. No external referrals or running around town.
+            </p>
+          </div>
+          <div className="flex gap-4 md:gap-6 opacity-80 justify-center">
+            <div className="flex flex-col items-center gap-2"><HeartPulse className="w-8 h-8"/> <span className="text-xs font-bold uppercase tracking-wider">Physio</span></div>
+            <div className="flex flex-col items-center gap-2"><Video className="w-8 h-8"/> <span className="text-xs font-bold uppercase tracking-wider">X-Ray</span></div>
+            <div className="flex flex-col items-center gap-2"><Activity className="w-8 h-8"/> <span className="text-xs font-bold uppercase tracking-wider">Motion Map</span></div>
+          </div>
+        </div>
       </section>
 
-      {/* 9. TESTIMONIALS (Mixed Outcomes) */}
-      <section className="py-20 px-4 bg-brand-bgCream">
-        <div className="max-w-7xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-black text-center text-brand-green mb-16">Real Patient Outcomes</h2>
-          <div className="grid md:grid-cols-3 gap-8">
-            {[
-              { type: "Avoided Surgery", name: "Rajesh K.", text: "Another hospital told me to get knee replacement immediately. Dr. Amith reviewed my MRI and put me on targeted physio. 4 months later, my pain is down 90%." },
-              { type: "Successful Surgery", name: "Lakshmi M.", text: "My arthritis was bone-on-bone. Dr. Amith performed a total knee replacement. His transparent pricing and post-op care were exceptional. Walking pain-free now." },
-              { type: "Honest Opinion", name: "Srinivas R.", text: "I came in for a second opinion on partial knee replacement. Dr. Amith explained exactly why it wasn't the right time yet. Very ethical doctor." }
-            ].map((t, i) => (
-              <div key={i} className="bg-white p-8 rounded-3xl shadow-lg border border-gray-100 flex flex-col justify-between">
-                <div>
-                  <span className={`text-[10px] font-black uppercase px-3 py-1 rounded-full ${t.type === 'Successful Surgery' ? 'bg-brand-orange/10 text-brand-orange' : 'bg-brand-green/10 text-brand-green'}`}>{t.type}</span>
-                  <div className="mt-4 mb-4">{[...Array(5)].map((_, i) => <Star key={i} className="inline-block w-4 h-4 text-brand-orange fill-current mr-1" />)}</div>
-                  <p className="text-gray-700 italic font-medium mb-6">"{t.text}"</p>
+      {/* 9. TESTIMONIALS (MIXED) */}
+      <section className="py-10 md:py-16 px-4 bg-[#FDFCF8] border-t border-gray-100 overflow-hidden">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-8 space-y-2">
+            <h2 className="text-2xl md:text-3xl lg:text-4xl font-black text-[#1A332F] tracking-tight">
+              Real Patients. Real Relief.
+            </h2>
+            <p className="text-sm md:text-base text-gray-600 font-medium max-w-xl mx-auto">
+              Whether you need targeted physio or precise surgery, see how we've helped locals get back to doing what they love.
+            </p>
+          </div>
+          
+          <div className="relative -mx-4 px-4 md:mx-0 md:px-0">
+            <div 
+              id="testimonial-scroll"
+              className="flex overflow-x-auto pb-4 gap-4 md:gap-5 snap-x snap-mandatory scroll-smooth [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
+              onMouseEnter={() => window.pauseScroll = true}
+              onMouseLeave={() => window.pauseScroll = false}
+              onTouchStart={() => window.pauseScroll = true}
+              onTouchEnd={() => { setTimeout(() => window.pauseScroll = false, 3000) }}
+            >
+              {[
+                { name: "Rajesh", loc: "Non-Surgical Recovery", text: "Told to undergo knee replacement elsewhere. Visited Dr. Amith for a second opinion. After his guided physio, my pain is down by 90% and I avoided surgery." },
+                { name: "Lakshmi", loc: "Surgical Recovery", text: "My arthritis was bone-on-bone. Dr. Amit performed a successful knee replacement. I was walking the next day and my quality of life has completely returned." },
+                { name: "Meenakshi", loc: "Second Opinion", text: "Finding an honest clinic nearby can be exhausting. Kneev provided an accurate diagnosis on the spot and didn't force excessive medication or surgery." },
+                { name: "Vikram", loc: "Surgical Recovery", text: "Dr. Amith handled my complex joint reconstruction perfectly. The transparency in pricing and direct availability post-surgery made all the difference." },
+                { name: "Srinivas", loc: "Diagnostics", text: "The 360° motion mapping changed everything. They found the real reason my knee hurt during morning walks without needing an operation. Highly recommend." }
+              ].map((tst, idx) => (
+                <div key={idx} className="min-w-[280px] md:min-w-[320px] max-w-[320px] flex-shrink-0 snap-center bg-white p-5 md:p-6 rounded-2xl shadow-[0_4px_20px_rgb(0,0,0,0.04)] border border-gray-100 flex flex-col justify-between">
+                  <div>
+                    <div className="mb-3 flex justify-between items-center">
+                      <div className="flex gap-0.5">
+                        {[...Array(5)].map((_, i) => <Star key={i} className="w-4 h-4 text-[#FFBF23] fill-current" />)}
+                      </div>
+                    </div>
+                    <p className="text-gray-700 text-sm md:text-[15px] font-medium leading-relaxed mb-5">"{tst.text}"</p>
+                  </div>
+                  
+                  <div className="flex items-center pt-3 border-t border-gray-50">
+                    <div className="w-8 h-8 rounded-full bg-[#E97724]/10 text-[#E97724] flex items-center justify-center font-bold text-sm mr-3">
+                      {tst.name.charAt(0)}
+                    </div>
+                    <div>
+                      <div className="font-bold text-[#1A332F] text-sm leading-tight">{tst.name}</div>
+                      <div className="text-[#E97724] font-semibold text-[11px] uppercase tracking-wide">{tst.loc}</div>
+                    </div>
+                  </div>
                 </div>
-                <div className="font-black text-brand-green border-t border-gray-100 pt-4">{t.name}</div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      
+{/* 10. ALSO TREATING SUB-SECTION */}
+      <section className="py-10 md:py-14 px-4 bg-white border-t border-gray-100">
+        <div className="max-w-5xl mx-auto">
+          
+          <div className="text-center mb-6 md:mb-10">
+            <h2 className="text-xl md:text-2xl lg:text-3xl font-black text-[#1A332F]">
+              Also Specializing In
+            </h2>
+          </div>
+
+          {/* Compact, Interactive Grid: 1 col mobile, 2 col tablet, 3 col desktop */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4">
+            {[
+              { 
+                title: "Knee Pain", 
+                desc: "Understanding causes and when to seek professional help.", 
+                icon: Stethoscope 
+              },
+              { 
+                title: "Knee Arthritis", 
+                desc: "Osteoarthritis management and treatment options.", 
+                icon: Bone 
+              },
+              { 
+                title: "ACL Injury", 
+                desc: "Anterior cruciate ligament tears and full recovery.", 
+                icon: Activity 
+              },
+              { 
+                title: "PCL Injury", 
+                desc: "Posterior cruciate ligament injuries and management.", 
+                icon: ShieldCheck 
+              },
+              { 
+                title: "Meniscus Injury", 
+                desc: "Advanced repair and tissue healing protocols.", 
+                icon: ShieldAlert 
+              },
+              { 
+                title: "Arthroscopy", 
+                desc: "Minimally invasive, precision keyhole surgeries.", 
+                icon: HeartPulse 
+              }
+            ].map((condition, idx) => (
+              <div 
+                key={idx} 
+                className="group bg-[#FDFCF8] border border-gray-200 p-3.5 md:p-4 rounded-xl flex items-start gap-3.5 transition-all duration-300 ease-in-out hover:bg-white hover:border-[#E97724]/40 hover:shadow-[0_4px_15px_rgba(233,119,36,0.08)] hover:-translate-y-0.5 cursor-default"
+              >
+                {/* Icon Container with hover effect */}
+                <div className="w-9 h-9 md:w-10 md:h-10 rounded-lg bg-white border border-gray-100 shadow-sm flex items-center justify-center flex-shrink-0 transition-colors duration-300 group-hover:bg-[#E97724]/10 group-hover:border-[#E97724]/20">
+                  <condition.icon className="w-4 h-4 md:w-5 md:h-5 text-[#E97724]" />
+                </div>
+                
+                {/* Text Content */}
+                <div className="flex-1 mt-0.5">
+                  <h4 className="font-bold text-[#1A332F] text-sm md:text-[15px] leading-tight mb-1 group-hover:text-[#E97724] transition-colors">
+                    {condition.title}
+                  </h4>
+                  <p className="text-[11px] md:text-xs text-gray-500 font-medium leading-snug">
+                    {condition.desc}
+                  </p>
+                </div>
               </div>
             ))}
           </div>
+
         </div>
       </section>
 
-      {/* 10. ALSO TREATING */}
-      <section className="py-16 px-4 bg-white border-y border-gray-100">
-        <div className="max-w-5xl mx-auto text-center">
-          <h3 className="text-2xl font-black text-brand-green mb-8">Also Specialized In</h3>
-          <div className="flex flex-wrap justify-center gap-4 md:gap-8">
-            <span className="flex items-center text-gray-700 font-bold"><Check className="w-5 h-5 text-brand-orange mr-2" /> Arthroscopic Knee Surgery</span>
-            <span className="flex items-center text-gray-700 font-bold"><Check className="w-5 h-5 text-brand-orange mr-2" /> ACL Surgery Bangalore</span>
-            <span className="flex items-center text-gray-700 font-bold"><Check className="w-5 h-5 text-brand-orange mr-2" /> Meniscus Tear Treatment</span>
+      {/* 11. INSURANCE & CASHLESS */}
+      <section className="py-10 px-4 bg-[#FDFCF8] border-t border-gray-200">
+        <div className="max-w-4xl mx-auto flex flex-col md:flex-row items-center justify-center text-center md:text-left gap-6 bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-gray-100">
+          <div className="w-16 h-16 bg-[#E97724]/10 rounded-full flex items-center justify-center flex-shrink-0">
+            <Building2 className="w-8 h-8 text-[#E97724]" />
+          </div>
+          <div>
+            <h3 className="text-lg md:text-xl font-black text-[#1A332F] mb-1">Corporate & Insurance Coverage</h3>
+            <p className="text-sm text-gray-600 font-medium">
+              We assist with documentation for insurance claims and are in the process of empaneling with major corporate health networks. <strong>Contact our front desk to verify your specific insurance provider.</strong>
+            </p>
           </div>
         </div>
       </section>
 
-      {/* 11. FAQ */}
-      <section className="py-20 px-4 bg-brand-bgCream">
-        <div className="max-w-4xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-black text-center text-brand-green mb-12">Frequently Asked Questions</h2>
-          <div className="space-y-4">
+      {/* 12. FAQ SECTION */}
+      <section className="py-12 md:py-16 px-4 bg-white border-t border-gray-100">
+        <div className="max-w-6xl mx-auto">
+          <div className="mb-10 text-center md:text-left">
+            <h2 className="text-2xl md:text-3xl lg:text-4xl font-black text-[#1A332F] uppercase tracking-wide">
+              Frequently Asked Questions
+            </h2>
+          </div>
+          
+          <div className="grid md:grid-cols-2 gap-x-12 gap-y-2 md:gap-y-0">
             {[
-              { q: "How do I know if I need robotic vs. conventional surgery?", a: "Robotic surgery offers sub-millimeter precision for bone cuts, which is excellent for complex deformities. However, conventional surgery by an expert yields identical long-term functional results for most patients. Dr. Amith evaluates your specific anatomy to recommend the best path." },
-              { q: "What is the recovery timeline for knee replacement?", a: "Patients typically stand the same day or next day after surgery. You can expect to walk with a walker for 2 weeks, transition to a cane, and resume most normal daily activities within 6 to 8 weeks with diligent physiotherapy." },
-              { q: "Does insurance cover the full cost?", a: "Most comprehensive health insurance policies and corporate TPAs cover total knee replacement surgery. We assist with pre-authorization to ensure maximum cashless benefit based on your policy cap." },
-              { q: "What is a unilateral vs partial knee replacement?", a: "Unilateral (Total) replaces all three compartments of the knee joint. Partial (Unicompartmental) replaces only the damaged section (usually the inner side), preserving healthy bone and ligaments for a faster recovery." },
-              { q: "What should I bring for a second opinion?", a: "Please carry all previous X-rays (especially standing full-leg views if you have them), recent MRI reports, and any prior prescriptions or operative notes." },
-              { q: "Will I be forced to book surgery immediately?", a: "Absolutely not. KNEEV operates on a strict conservative-first ethos. We provide the diagnosis and options; the timeline and decision are entirely yours." },
-              { q: "Can arthroscopic surgery fix my arthritis?", a: "Arthroscopy is generally for meniscus tears or ACL reconstruction, not for treating bone-on-bone osteoarthritis. " },
-              { q: "Is physiotherapy mandatory after surgery?", a: "Yes. The success of a knee replacement is 50% surgical precision and 50% post-operative rehabilitation. We provide complete rehab protocols." },
-              { q: "How long do knee implants last?", a: "Modern highly cross-linked polyethylene implants typically last 15 to 20 years, depending on your weight, activity level, and bone quality." },
-              { q: "Can I climb stairs after the procedure?", a: "Yes, once fully rehabilitated, patients can comfortably climb stairs, drive, and engage in low-impact activities like walking, swimming, and cycling." }
-            ].map((faq, i) => (
-              <details key={i} className="group bg-white rounded-2xl border border-brand-orange/40 p-6 cursor-pointer hover:shadow-md transition">
-                <summary className="font-black text-brand-green flex justify-between items-center list-none text-lg">
-                  {faq.q} <ChevronDown className="w-6 h-6 text-brand-orange group-open:rotate-180 transition-transform flex-shrink-0 ml-4" />
+              { q: "How does the second-opinion process work?", a: "Bring your existing MRI/X-Rays. Dr. Amit will review them, perform a physical exam, and provide an honest assessment of whether you truly need surgery or if conservative care will work." },
+              { q: "Will I definitely need surgery for my joint pain?", a: "Absolutely not. Over 80% of our patients recover fully through guided physiotherapy and conservative medication." },
+              { q: "Is the ₹600 fee inclusive of diagnostic X-rays?", a: "The ₹600 fee covers the comprehensive clinical evaluation with Dr. Amith. Digital X-Rays or lab diagnostics are charged separately at standard rates." },
+              { q: "What is the cost of knee replacement surgery?", a: "Surgery costs vary based on the implant used and whether a robotic or conventional approach is chosen. We provide a fully transparent cost breakdown after your clinical assessment." },
+              { q: "Robotic vs. Conventional surgery—which is better?", a: "Robotic surgery offers extreme precision for implant alignment, often leading to a more natural feeling joint and faster recovery. Dr. Amit is certified in both and will recommend the best option for your specific anatomy." },
+              { q: "What is the recovery timeline for surgery?", a: "Most patients are walking with support the next day. A full return to normal daily activities usually takes 4 to 6 weeks with dedicated physiotherapy." },
+              { q: "Do you offer corporate or insurance coverage?", a: "Yes, our team supports proper claim documentation processing for surgical procedures and major treatments." },
+              { q: "What is a 360° Motion Map?", a: "It is an advanced screening we use to identify hidden muscular imbalances and biomechanical faults that standard MRIs often miss." },
+              { q: "Can I bring an old MRI report?", a: "Yes, please bring any recent scans. We prefer not to repeat tests unless clinically necessary." },
+              { q: "Is physiotherapy done at the same clinic?", a: "Yes! We have an integrated, fully-equipped physiotherapy center right here, so you don't have to travel elsewhere for rehab." }
+            ].map((faq, idx) => (
+              <details key={idx} className="group border-b border-gray-200 py-4 cursor-pointer">
+                <summary className="font-bold text-[#1A332F] text-sm md:text-base flex justify-between items-center list-none outline-none">
+                  <span>Q. {faq.q}</span>
+                  <span className="relative flex-shrink-0 ml-4 w-4 h-4 flex items-center justify-center text-[#E97724]">
+                    <Plus className="w-5 h-5 absolute transition-opacity duration-200 group-open:opacity-0" strokeWidth={2.5} />
+                    <Minus className="w-5 h-5 absolute transition-opacity duration-200 opacity-0 group-open:opacity-100" strokeWidth={2.5} />
+                  </span>
                 </summary>
-                <p className="mt-4 text-gray-700 font-medium leading-relaxed pl-4 border-l-2 border-brand-orange">{faq.a}</p>
+                <p className="mt-3 text-gray-600 text-sm font-medium leading-relaxed pr-8">
+                  {faq.a}
+                </p>
               </details>
             ))}
           </div>
         </div>
-      </section>
-
-      {/* 12. CTA */}
-      <section className="bg-brand-orange py-16 md:py-24 px-4 relative overflow-hidden">
-  <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'radial-gradient(#ffffff 2px, transparent 2px)', backgroundSize: '30px 30px' }}></div>
-  
-  <div className="max-w-4xl mx-auto text-center relative z-10 space-y-6 md:space-y-8">
-    <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-white leading-tight">
-      Avoid Unnecessary Surgery.
-    </h2>
-    <p className="text-sm md:text-lg lg:text-xl text-white/90 font-medium max-w-2xl mx-auto px-4">
-      Get clarity on your knee pain from a leading specialist today.
-    </p>
-    
-    {footerSubmitted ? (
-      <div className="bg-white p-3 md:p-4 rounded-full inline-flex flex-col sm:flex-row items-center w-full max-w-md shadow-2xl justify-center border-4 border-white animate-in zoom-in duration-300">
-        <CheckCircle className="w-5 h-5 md:w-6 md:h-6 text-green-500 mr-0 sm:mr-2 mb-1 sm:mb-0" />
-        <span className="text-brand-green font-black text-sm md:text-lg">We will contact you shortly.</span>
-      </div>
-    ) : (
-      <form onSubmit={(e) => handleFormSubmit(e, setFooterSubmitted)} className="bg-white p-2 rounded-3xl sm:rounded-full inline-flex flex-col sm:flex-row w-full max-w-xl shadow-2xl items-center">
-        <input type="hidden" name="access_key" value="YOUR_ACCESS_KEY_HERE" />
-        <input type="tel" name="phone" required placeholder="Enter mobile number" className="w-full px-6 py-4 rounded-full outline-none font-bold text-brand-green text-center sm:text-left text-sm md:text-base" />
-        <button type="submit" disabled={isSubmitting} className="bg-brand-green text-white font-black uppercase px-8 py-4 rounded-full w-full sm:w-auto mt-2 sm:mt-0 hover:bg-opacity-90 transition disabled:opacity-70 text-sm md:text-base">
-          {isSubmitting ? '...' : 'Get Callback'}
-        </button>
-      </form>
-    )}
-  </div>
-</section>
-    {/* EXACT CONTACT US SECTION & MAP */}
-      <section className="py-12 md:py-24 px-4 bg-white border-y border-gray-200">
-        <div className="max-w-7xl mx-auto">
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-black text-brand-green text-center mb-10 md:mb-16">Contact Us</h2>
+      </section>    
+      <section className="py-10 md:py-14 px-4 bg-white border-t border-gray-100">
+        <div className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-8 md:gap-10 items-center">
           
-          <div className="grid md:grid-cols-3 gap-8 md:gap-12 mb-10 md:mb-16 text-center md:text-left">
-            <div className="space-y-2 md:space-y-4">
-              <h3 className="text-xl md:text-2xl font-medium text-brand-green">Address</h3>
-              <p className="text-gray-700 font-medium leading-loose text-xs md:text-sm max-w-[250px] mx-auto md:mx-0">
-                Ground floor, 334/28, 14th Cross Rd, 2nd Block, Jayanagar, Bengaluru, Karnataka 560011
+          {/* Information Side */}
+          <div className="space-y-5 md:space-y-6 text-center md:text-left">
+            <div>
+              <h2 className="text-2xl md:text-3xl lg:text-4xl font-black text-[#1A332F] tracking-tight">
+                Conveniently Located in South Bengaluru
+              </h2>
+              <p className="text-sm md:text-base text-gray-600 font-medium mt-2">
+                Easily accessible from major neighborhoods. Stop living with pain and visit us today.
               </p>
             </div>
-            
-            <div className="space-y-2 md:space-y-4">
-              <h3 className="text-xl md:text-2xl font-medium text-brand-green">Contact</h3>
-              <p className="text-gray-700 font-medium text-xs md:text-sm">+91 636 670 0736</p>
-              <p className="text-gray-700 font-medium text-xs md:text-sm md:pt-4">kneevorthopaediccenter@gmail.com</p>
+      
+            <div className="bg-[#FDFCF8] p-5 md:p-6 rounded-2xl border border-gray-100 text-left">
+              <div className="space-y-3.5">
+                {/* Address */}
+                <div className="flex items-start">
+                  <MapPin className="w-5 h-5 mr-3 text-[#E97724] flex-shrink-0 mt-0.5" />
+                  <p className="text-sm text-gray-700 font-medium leading-relaxed">
+                    Ground floor, 334/28, 14th Cross Rd, 2nd Block, Jayanagar, Bengaluru, Karnataka 560011
+                  </p>
+                </div>
+                
+                {/* Phone */}
+                <div className="flex items-center">
+                  <Phone className="w-5 h-5 mr-3 text-[#E97724] flex-shrink-0" />
+                  <a href="tel:+916366700736" className="text-sm text-gray-700 font-bold hover:text-[#E97724] transition-colors">
+                    +91 636 670 0736
+                  </a>
+                </div>
+      
+                {/* Email */}
+                <div className="flex items-center">
+                  <Mail className="w-5 h-5 mr-3 text-[#E97724] flex-shrink-0" />
+                  <a href="mailto:kneevorthopaediccenter@gmail.com" className="text-sm text-gray-700 font-bold hover:text-[#E97724] transition-colors break-all">
+                    kneevorthopaediccenter@gmail.com
+                  </a>
+                </div>
+      
+                {/* Hours */}
+                <div className="flex items-start pt-1">
+                  <Clock className="w-5 h-5 mr-3 text-[#E97724] flex-shrink-0 mt-0.5" />
+                  <div className="text-sm text-gray-700 font-medium leading-snug">
+                    <p>Mon - Sat: 9:00 AM - 7:00 PM</p>
+                    <p className="text-[#E97724] font-bold mt-0.5">Sunday: By appointment only</p>
+                  </div>
+                </div>
+              </div>
             </div>
-            
-            <div className="space-y-2 md:space-y-4">
-              <h3 className="text-xl md:text-2xl font-medium text-brand-green">Opening Hours</h3>
-              <div className="flex justify-center md:justify-start items-center space-x-4 text-gray-700 font-medium text-xs md:text-sm">
-                <span>Mon – Sat</span>
-                <span>9:00 AM – 7:00 PM</span>
+      
+            {/* Distance Markers */}
+            <div className="space-y-2 pt-2">
+              <p className="uppercase text-gray-400 font-bold tracking-wider text-[10px]">Driving Distance:</p>
+              <div className="flex flex-wrap justify-center md:justify-start gap-1.5 md:gap-2">
+                <span className="bg-[#F3F6F4] text-xs font-semibold px-3 py-1.5 rounded-lg text-gray-600 border border-gray-200">Jayanagar (0 min)</span>
+                <span className="bg-[#F3F6F4] text-xs font-semibold px-3 py-1.5 rounded-lg text-gray-600 border border-gray-200">JP Nagar (5 min)</span>
+                <span className="bg-[#F3F6F4] text-xs font-semibold px-3 py-1.5 rounded-lg text-gray-600 border border-gray-200">Basavanagudi (7 min)</span>
+                <span className="bg-[#F3F6F4] text-xs font-semibold px-3 py-1.5 rounded-lg text-gray-600 border border-gray-200">Banashankari (8 min)</span>
+                <span className="bg-[#F3F6F4] text-xs font-semibold px-3 py-1.5 rounded-lg text-gray-600 border border-gray-200">BTM Layout (10 min)</span>
               </div>
             </div>
           </div>
-
-          <div className="rounded-[20px] md:rounded-[30px] overflow-hidden shadow-xl md:shadow-2xl border-2 md:border-4 border-gray-100 h-[300px] md:h-[450px]">
-            <iframe 
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3888.538133410082!2d77.5821029!3d12.937379700000001!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bae15c37637b029%3A0x51dafb847ff38263!2sKneev%20Orthopaedic%20Center%20%7C%20Dr.%20Amith%20Shetty!5e0!3m2!1sen!2sin!4v1779257511913!5m2!1sen!2sin"
+      
+          {/* Map Side */}
+          <div className="rounded-2xl overflow-hidden shadow-lg border border-gray-100 h-[320px] md:h-[420px] w-full relative">
+             <iframe 
+               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3888.538133410082!2d77.5821029!3d12.937379700000001!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bae15c37637b029%3A0x51dafb847ff38263!2sKneev%20Orthopaedic%20Center%20%7C%20Dr.%20Amith%20Shetty!5e0!3m2!1sen!2sin!4v1780162330680!5m2!1sen!2sin" 
               width="100%" 
-              height="100%" 
-              style={{ border: 0 }} 
-              allowFullScreen="" 
-              loading="lazy" 
-              referrerPolicy="no-referrer-when-downgrade"
-            ></iframe>
+               height="100%" 
+               style={{ border: 0 }} 
+               allowFullScreen="" 
+               loading="lazy" 
+               title="Clinic Location"
+             ></iframe>
           </div>
         </div>
       </section>
-  
+      
+      {/* 13. PRE-FOOTER CTA */}
+      <section className="py-12 md:py-20 px-4 bg-[#E97724] relative overflow-hidden">
+        <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'radial-gradient(#ffffff 2px, transparent 2px)', backgroundSize: '30px 30px' }}></div>
+        
+        <div className="max-w-6xl mx-auto relative z-10 flex flex-col lg:flex-row items-center gap-10 lg:gap-16">
+          <div className="w-full lg:w-1/2 text-center lg:text-left space-y-6">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-white leading-tight">
+              Take the First Step Toward a Pain-Free Life.
+            </h2>
+            <p className="text-white/90 text-base md:text-lg font-medium max-w-xl mx-auto lg:mx-0">
+              You deserve an honest opinion. Secure your complete assessment with Jayanagar's trusted orthopedic specialist today.
+            </p>
+            
+            <ul className="text-white space-y-3 font-bold text-sm md:text-base hidden md:block mt-6">
+              <li className="flex items-center justify-center lg:justify-start">
+                <CheckCircle className="w-5 h-5 mr-3 text-white" /> Transparent Pricing, No Hidden Costs
+              </li>
+              <li className="flex items-center justify-center lg:justify-start">
+                <CheckCircle className="w-5 h-5 mr-3 text-white" /> Conservative Care First Approach
+              </li>
+              <li className="flex items-center justify-center lg:justify-start">
+                <CheckCircle className="w-5 h-5 mr-3 text-white" /> Advanced Diagnostics On-Site
+              </li>
+            </ul>
+          </div>
 
-      {/* 13. FOOTER */}
+          <div className="w-full lg:w-1/2 max-w-md mx-auto lg:mx-0 lg:ml-auto bg-white p-6 md:p-8 rounded-[2rem] shadow-2xl border border-gray-100">
+            <LeadForm onSubmit={(e) => handleFormSubmit(e, 'Footer Form', setFooterSubmitted)} />
+          </div>
+        </div>
+      </section>
+
+      {/* 14. FOOTER */}
       <Footer />
 
-      {/* MOBILE WHATSAPP */}
-      <a href="https://wa.me/916366700736" target="_blank" rel="noreferrer" className="fixed bottom-6 right-6 bg-[#00c34e] text-white p-4 rounded-full shadow-2xl z-50 flex items-center">
-        <MessageSquare className="w-6 h-6 md:mr-2" />
-        <span className="font-black text-xs uppercase hidden sm:inline-block">Ask Dr. Amith</span>
-      </a>
-
+      {/* FLOATING ACTION BUTTONS */}
+      <div className="fixed bottom-6 right-4 md:right-6 z-50 flex flex-col gap-3 md:gap-4">
+        <a 
+          href="https://wa.me/916366700736" 
+          target="_blank" 
+          rel="noopener noreferrer" 
+          aria-label="Chat on WhatsApp"
+          className="w-12 h-12 md:w-14 md:h-14 bg-[#25D366] text-white rounded-full flex items-center justify-center shadow-[0_4px_15px_rgba(37,211,102,0.3)] hover:scale-110 transition-transform duration-300"
+        >
+          <svg className="w-6 h-6 md:w-7 md:h-7" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+          </svg>
+        </a>
+        <a 
+          href="tel:+916366700736" 
+          aria-label="Call Clinic"
+          className="w-12 h-12 md:w-14 md:h-14 bg-[#E97724] text-white rounded-full flex items-center justify-center shadow-[0_4px_15px_rgba(26,51,47,0.3)] hover:scale-110 transition-transform duration-300"
+        >
+          <svg className="w-5 h-5 md:w-6 md:h-6" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
+          </svg>
+        </a>
+      </div>
     </div>
   );
 }

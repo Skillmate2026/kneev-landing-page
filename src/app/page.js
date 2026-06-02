@@ -126,7 +126,6 @@ export default function LandingPage() {
       <Script id="schema-markup" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaMarkup) }} />
       <Header />
 
-      {/* 1. HERO SECTION */}
 {/* 1. HERO SECTION */}
       <section className="relative pt-6 pb-12 md:pt-12 md:pb-16 px-4 overflow-hidden bg-cover bg-center bg-no-repeat" style={{ backgroundImage: "url('/hero-knee.png')" }}>
         
