@@ -112,75 +112,70 @@ export default function KneePainLandingPage() {
   </div>
 </section>
 
-{/* 3. PREMIUM DOCTOR PROFILE SECTION */}
-      <section id="doctor" className="py-8 md:py-12 px-4 bg-white border-b border-gray-100">
-        <div className="max-w-5xl mx-auto">
-          {/* Premium Contained Card */}
-          <div className="bg-[#FDFCF8] rounded-[2rem] shadow-lg border border-gray-100 p-5 md:p-8 flex flex-col md:flex-row gap-6 md:gap-10 items-center relative overflow-hidden">
+      {/* 3. DR AMIT SURGICAL CREDENTIALS */}
+       <section id="doctor" className="py-10 md:py-14 px-4 bg-white border-b border-gray-100">
+        <div className="max-w-5xl mx-auto bg-[#FDFCF8] rounded-[2rem] shadow-[0_8px_30px_rgb(0,0,0,0.06)] border border-gray-100 overflow-hidden flex flex-col md:flex-row">
+          
+          {/* Image Side */}
+          <div className="md:w-2/5 relative h-[350px] md:h-auto flex-shrink-0">
+            <Image 
+              src="/dr.JPG" 
+              alt="Dr. Amith P. Shetty - Orthopedic Doctor" 
+              fill
+              className="object-cover object-top"
+            />
+            {/* Mobile-only name overlay so it sits nicely on the image */}
+            <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-[#1A332F] via-[#1A332F]/80 to-transparent p-5 pt-12 md:hidden">
+              <h3 className="text-white font-black text-2xl">Dr. Amith P. Shetty</h3>
+              <p className="text-[#E97724] font-bold text-xs uppercase tracking-wider mt-1">Lead Orthopedic Surgeon</p>
+            </div>
+          </div>
+          
+          {/* Text Side */}
+          <div className="md:w-3/5 p-6 md:p-8 lg:p-10 flex flex-col justify-center">
             
-            {/* Subtle decorative background accent */}
-            <div className="absolute top-0 right-0 w-64 h-64 bg-[#E97724] rounded-full blur-[80px] opacity-10 pointer-events-none"></div>
-
-            {/* Image Column */}
-            <div className="relative w-full max-w-[240px] md:max-w-[300px] mx-auto md:w-2/5 shrink-0 z-10">
-              {/* Offset accent border */}
-              <div className="absolute inset-0 bg-[#1A332F] rounded-[2rem] transform -rotate-3 scale-105 opacity-5"></div>
-              <div className="relative rounded-[2rem] overflow-hidden shadow-md border-4 border-white bg-white">
-                <Image 
-                  src="/dr.JPG" 
-                  alt="Dr. Amith P. Shetty - Orthopaedic Surgeon" 
-                  width={400} 
-                  height={500} 
-                  priority 
-                  className="object-cover w-full aspect-[4/5]" 
-                />
-              </div>
+            {/* Desktop Header */}
+            <div className="hidden md:block mb-5">
+              <h2 className="text-2xl md:text-3xl lg:text-4xl font-black text-[#1A332F] leading-tight">
+                Dr. Amith P. Shetty
+              </h2>
+              <p className="text-[#E97724] font-bold text-xs lg:text-sm uppercase tracking-wider mt-1.5">
+                Lead Orthopedic Surgeon
+              </p>
+            </div>
+      
+            {/* Quote Block */}
+            <blockquote className="border-l-4 border-[#E97724] pl-4 my-2 md:mb-6">
+              <p className="text-sm md:text-base text-gray-600 font-medium italic leading-relaxed">
+                "Treat the patient, not just the MRI. Most joint issues resolve with lifestyle corrections and targeted physiotherapy. Surgery is strictly for when it's absolutely necessary to restore your quality of life."
+              </p>
+            </blockquote>
+            
+            {/* Credentials List (Compacted) */}
+            <div className="mt-6 md:mt-0 space-y-3 bg-white p-4 md:p-5 rounded-xl border border-gray-100 shadow-sm">
+              <h4 className="font-bold text-[#1A332F] text-sm flex items-center border-b border-gray-100 pb-2 mb-3 uppercase tracking-wide">
+                <Award className="w-4 h-4 mr-2 text-[#E97724]" /> Founder & Chief Orthopaedic Surgeon
+              </h4>
+              <ul className="space-y-2.5 text-xs md:text-sm text-gray-700 font-medium">
+                <li className="flex items-start">
+                  <CheckCircle className="w-4 h-4 text-[#E97724] mr-2.5 flex-shrink-0 mt-0.5" />
+                  <span><strong>MBBS, MS Orthopaedics</strong> with extensive hands-on surgical training.</span>
+                </li>
+                <li className="flex items-start">
+                  <CheckCircle className="w-4 h-4 text-[#E97724] mr-2.5 flex-shrink-0 mt-0.5" />
+                  <span><strong>Dip SICOT (Belgium) & FIJR (Germany)</strong> specializing in complex joint reconstruction.</span>
+                </li>
+                <li className="flex items-start">
+                  <CheckCircle className="w-4 h-4 text-[#E97724] mr-2.5 flex-shrink-0 mt-0.5" />
+                  <span><strong>17+ Years Experience</strong> handling degenerative diseases and sports injuries.</span>
+                </li>
+                <li className="flex items-start">
+                  <CheckCircle className="w-4 h-4 text-[#E97724] mr-2.5 flex-shrink-0 mt-0.5" />
+                  <span><strong>Consultant At Manipal Hospitals & Apollo Hospitals</strong> specializing in degenerative diseases, sports injuries, and joint reconstruction.</span>
+                </li>
+              </ul>
             </div>
             
-            {/* Text Column */}
-            <div className="w-full md:w-3/5 z-10 text-center md:text-left flex flex-col justify-center">
-              
-              {/* Header / Name */}
-              <div className="mb-5 md:mb-6">
-                <span className="inline-block px-3 py-1 bg-[#E97724]/10 text-[#E97724] text-[10px] md:text-xs font-black uppercase tracking-widest rounded-full mb-3">
-                  Knee, Hip & Spine Specialist
-                </span>
-                <h2 className="text-3xl md:text-4xl font-black text-[#1A332F] leading-tight">
-                  Dr. Amith P. Shetty
-                </h2>
-                <p className="text-gray-500 text-xs md:text-sm font-bold mt-1.5">
-                  MBBS, MS Orthopaedics, Dip SICOT (Belgium), FIJR (Germany)
-                </p>
-              </div>
-
-              {/* Experience Points - Scannable List */}
-              <div className="space-y-3 md:space-y-4 pt-4 border-t border-gray-200 text-left">
-                {[
-                  { 
-                    icon: Award, 
-                    text: "Over a decade of clinical experience in joint replacement and trauma surgery." 
-                  },
-                  { 
-                    icon: Stethoscope, 
-                    text: "Trained across high-volume hospital settings with exposure to complex and revision cases." 
-                  },
-                  { 
-                    icon: ShieldCheck, 
-                    text: "Conservative-first philosophy — surgery is recommended only when non-operative care is insufficient." 
-                  }
-                ].map((item, idx) => (
-                  <div key={idx} className="flex items-start bg-white md:bg-transparent p-3 md:p-0 rounded-xl md:rounded-none shadow-sm md:shadow-none border border-gray-100 md:border-none">
-                    <div className="bg-[#F3F6F4] md:bg-transparent p-1.5 md:p-0 rounded-lg mr-3 flex-shrink-0 mt-0.5 md:mt-0">
-                      <item.icon className="w-5 h-5 md:w-6 md:h-6 text-[#E97724]" />
-                    </div>
-                    <p className="text-gray-700 text-xs md:text-sm font-medium leading-relaxed">
-                      {item.text}
-                    </p>
-                  </div>
-                ))}
-              </div>
-
-            </div>
           </div>
         </div>
       </section>
@@ -209,7 +204,7 @@ export default function KneePainLandingPage() {
       </section>
 
       {/* 5. KNEE CONDITIONS TREATED */}
-{/* 5. KNEE CONDITIONS TREATED */}
+
       <section className="py-10 md:py-16 bg-white overflow-hidden">
         <div className="max-w-6xl mx-auto px-4">
           <div className="text-center mb-8 md:mb-12">

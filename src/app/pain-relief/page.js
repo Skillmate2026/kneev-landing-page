@@ -95,8 +95,76 @@ export default function KneePainLandingPage() {
           </div>
         </div>
       </section>
+      
+            {/* 3. DR AMIT BIO */}
+      <section id="doctor" className="py-10 md:py-14 px-4 bg-white border-b border-gray-100">
+        <div className="max-w-5xl mx-auto bg-[#FDFCF8] rounded-[2rem] shadow-[0_8px_30px_rgb(0,0,0,0.06)] border border-gray-100 overflow-hidden flex flex-col md:flex-row">
+          
+          {/* Image Side */}
+          <div className="md:w-2/5 relative h-[350px] md:h-auto flex-shrink-0">
+            <Image 
+              src="/dr.JPG" 
+              alt="Dr. Amith P. Shetty - Orthopedic Doctor" 
+              fill
+              className="object-cover object-top"
+            />
+            {/* Mobile-only name overlay so it sits nicely on the image */}
+            <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-[#1A332F] via-[#1A332F]/80 to-transparent p-5 pt-12 md:hidden">
+              <h3 className="text-white font-black text-2xl">Dr. Amith P. Shetty</h3>
+              <p className="text-[#E97724] font-bold text-xs uppercase tracking-wider mt-1">Lead Orthopedic Surgeon</p>
+            </div>
+          </div>
+          
+          {/* Text Side */}
+          <div className="md:w-3/5 p-6 md:p-8 lg:p-10 flex flex-col justify-center">
+            
+            {/* Desktop Header */}
+            <div className="hidden md:block mb-5">
+              <h2 className="text-2xl md:text-3xl lg:text-4xl font-black text-[#1A332F] leading-tight">
+                Dr. Amith P. Shetty
+              </h2>
+              <p className="text-[#E97724] font-bold text-xs lg:text-sm uppercase tracking-wider mt-1.5">
+                Lead Orthopedic Surgeon
+              </p>
+            </div>
+      
+            {/* Quote Block */}
+            <blockquote className="border-l-4 border-[#E97724] pl-4 my-2 md:mb-6">
+              <p className="text-sm md:text-base text-gray-600 font-medium italic leading-relaxed">
+                "Treat the patient, not just the MRI. Most joint issues resolve with lifestyle corrections and targeted physiotherapy. Surgery is strictly for when it's absolutely necessary to restore your quality of life."
+              </p>
+            </blockquote>
+            
+            {/* Credentials List (Compacted) */}
+            <div className="mt-6 md:mt-0 space-y-3 bg-white p-4 md:p-5 rounded-xl border border-gray-100 shadow-sm">
+              <h4 className="font-bold text-[#1A332F] text-sm flex items-center border-b border-gray-100 pb-2 mb-3 uppercase tracking-wide">
+                <Award className="w-4 h-4 mr-2 text-[#E97724]" /> Founder & Chief Orthopaedic Surgeon
+              </h4>
+              <ul className="space-y-2.5 text-xs md:text-sm text-gray-700 font-medium">
+                <li className="flex items-start">
+                  <CheckCircle className="w-4 h-4 text-[#E97724] mr-2.5 flex-shrink-0 mt-0.5" />
+                  <span><strong>MBBS, MS Orthopaedics</strong> with extensive hands-on surgical training.</span>
+                </li>
+                <li className="flex items-start">
+                  <CheckCircle className="w-4 h-4 text-[#E97724] mr-2.5 flex-shrink-0 mt-0.5" />
+                  <span><strong>Dip SICOT (Belgium) & FIJR (Germany)</strong> specializing in complex joint reconstruction.</span>
+                </li>
+                <li className="flex items-start">
+                  <CheckCircle className="w-4 h-4 text-[#E97724] mr-2.5 flex-shrink-0 mt-0.5" />
+                  <span><strong>17+ Years Experience</strong> handling degenerative diseases and sports injuries.</span>
+                </li>
+                <li className="flex items-start">
+                  <CheckCircle className="w-4 h-4 text-[#E97724] mr-2.5 flex-shrink-0 mt-0.5" />
+                  <span><strong>Consultant At Manipal Hospitals & Apollo Hospitals</strong> specializing in degenerative diseases, sports injuries, and joint reconstruction.</span>
+                </li>
+              </ul>
+            </div>
+            
+          </div>
+        </div>
+      </section>
 
-      {/* 3. TRUST STRIP */}
+      {/* 4. TRUST STRIP */}
       <section className="bg-white border-b border-gray-100 py-6 px-4">
         <div className="max-w-7xl mx-auto">
           <div className="flex overflow-x-auto hide-scrollbar lg:grid lg:grid-cols-4 gap-6 lg:gap-0 divide-x-0 lg:divide-x lg:divide-gray-200">
@@ -124,7 +192,7 @@ export default function KneePainLandingPage() {
         </div>
       </section>
 
-      {/* 4. CONDITION-SPECIFIC BLOCKS (Treatment Depth) */}
+      {/* 5. CONDITION-SPECIFIC BLOCKS (Treatment Depth) */}
       <section id="conditions" className="py-12 md:py-20 px-4 bg-[#F9FACA]/20">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-10 md:mb-14">
@@ -194,7 +262,7 @@ export default function KneePainLandingPage() {
         </div>
       </section>
 
-      {/* 5. WHAT IS 360° MOTION MAP */}
+      {/* 6. WHAT IS 360° MOTION MAP */}
       <section className="py-12 md:py-20 px-4 bg-[#1A332F] text-white relative overflow-hidden">
         <div className="absolute top-0 right-0 w-96 h-96 bg-[#E97724] rounded-full blur-[120px] opacity-10"></div>
         <div className="max-w-6xl mx-auto flex flex-col lg:flex-row items-center gap-10 lg:gap-16 relative z-10">
@@ -246,8 +314,7 @@ export default function KneePainLandingPage() {
         </div>
       </section>
 
-      {/* 6. SINGLE-SESSION PHYSIO CONTRAST */}
-      {/* 6. SINGLE-SESSION PHYSIO CONTRAST */}
+      {/* 7. SINGLE-SESSION PHYSIO CONTRAST */}
       <section className="py-8 md:py-10 px-4 bg-[#E97724] relative overflow-hidden">
         {/* Subtle Background Accents */}
         <div className="absolute -left-10 -top-10 w-32 h-32 bg-white/20 rounded-full blur-3xl pointer-events-none"></div>
@@ -275,71 +342,9 @@ export default function KneePainLandingPage() {
         </div>
       </section>
 
-      {/* 7. DR AMIT BIO */}
-      <section id="doctor" className="py-10 md:py-14 px-4 bg-white border-b border-gray-100">
-        <div className="max-w-5xl mx-auto bg-[#FDFCF8] rounded-[2rem] shadow-[0_8px_30px_rgb(0,0,0,0.06)] border border-gray-100 overflow-hidden flex flex-col md:flex-row">
-          
-          {/* Image Side */}
-          <div className="md:w-2/5 relative h-[350px] md:h-auto flex-shrink-0">
-            <Image 
-              src="/dr.JPG" 
-              alt="Dr. Amith P. Shetty - Orthopedic Doctor" 
-              fill
-              className="object-cover object-top"
-            />
-            {/* Mobile-only name overlay so it sits nicely on the image */}
-            <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-[#1A332F] via-[#1A332F]/80 to-transparent p-5 pt-12 md:hidden">
-              <h3 className="text-white font-black text-2xl">Dr. Amith P. Shetty</h3>
-              <p className="text-[#E97724] font-bold text-xs uppercase tracking-wider mt-1">Lead Orthopedic Surgeon</p>
-            </div>
-          </div>
-          
-          {/* Text Side */}
-          <div className="md:w-3/5 p-6 md:p-8 lg:p-10 flex flex-col justify-center">
-            
-            {/* Desktop Header */}
-            <div className="hidden md:block mb-5">
-              <h2 className="text-2xl md:text-3xl lg:text-4xl font-black text-[#1A332F] leading-tight">
-                Dr. Amith P. Shetty
-              </h2>
-              <p className="text-[#E97724] font-bold text-xs lg:text-sm uppercase tracking-wider mt-1.5">
-                Lead Orthopedic Surgeon
-              </p>
-            </div>
+
       
-            {/* Quote Block */}
-            <blockquote className="border-l-4 border-[#E97724] pl-4 my-2 md:mb-6">
-              <p className="text-sm md:text-base text-gray-600 font-medium italic leading-relaxed">
-                "Treat the patient, not just the MRI. Most joint issues resolve with lifestyle corrections and targeted physiotherapy. Surgery is strictly for when it's absolutely necessary to restore your quality of life."
-              </p>
-            </blockquote>
-            
-            {/* Credentials List (Compacted) */}
-            <div className="mt-6 md:mt-0 space-y-3 bg-white p-4 md:p-5 rounded-xl border border-gray-100 shadow-sm">
-              <h4 className="font-bold text-[#1A332F] text-sm flex items-center border-b border-gray-100 pb-2 mb-3 uppercase tracking-wide">
-                <Award className="w-4 h-4 mr-2 text-[#E97724]" /> Credentials & Trust
-              </h4>
-              <ul className="space-y-2.5 text-xs md:text-sm text-gray-700 font-medium">
-                <li className="flex items-start">
-                  <CheckCircle className="w-4 h-4 text-[#E97724] mr-2.5 flex-shrink-0 mt-0.5" />
-                  <span><strong>MBBS, MS Orthopaedics</strong> with extensive hands-on surgical training.</span>
-                </li>
-                <li className="flex items-start">
-                  <CheckCircle className="w-4 h-4 text-[#E97724] mr-2.5 flex-shrink-0 mt-0.5" />
-                  <span><strong>Dip SICOT (Belgium) & FIJR (Germany)</strong> specializing in complex joint reconstruction.</span>
-                </li>
-                <li className="flex items-start">
-                  <CheckCircle className="w-4 h-4 text-[#E97724] mr-2.5 flex-shrink-0 mt-0.5" />
-                  <span><strong>17+ Years Experience</strong> handling degenerative diseases and sports injuries.</span>
-                </li>
-              </ul>
-            </div>
-            
-          </div>
-        </div>
-      </section>
-      
-      {/* 8. WHY CHOOSE KNEEV (Icon Grid) */}
+      {/* 9 . WHY CHOOSE KNEEV (Icon Grid) */}
       <section className="py-12 md:py-16 px-4 bg-[#F3F6F4]">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-10">
@@ -368,7 +373,7 @@ export default function KneePainLandingPage() {
         </div>
       </section>
 
-      {/* 9. TESTIMONIALS (Pain Relief Focused) */}
+      {/* 10. TESTIMONIALS (Pain Relief Focused) */}
       <section className="py-12 md:py-16 px-4 bg-white border-y border-gray-100 overflow-hidden">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-10 space-y-2">
@@ -415,7 +420,7 @@ export default function KneePainLandingPage() {
         </div>
       </section>
 
-      {/* 10. LOCATION & MAP */}
+      {/* 11  . LOCATION & MAP */}
       <section className="py-12 md:py-16 px-4 bg-[#F3F6F4] border-b border-gray-100">
         <div className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-8 md:gap-10 items-center">
           <div className="space-y-6 text-center md:text-left">
@@ -468,7 +473,7 @@ export default function KneePainLandingPage() {
         </div>
       </section>
 
-      {/* 11. FAQ SECTION */}
+      {/* 12. FAQ SECTION */}
       <section className="py-12 md:py-16 px-4 bg-white border-b border-gray-100">
         <div className="max-w-6xl mx-auto">
           <div className="mb-10 text-center md:text-left">
@@ -505,8 +510,7 @@ export default function KneePainLandingPage() {
         </div>
       </section>
 
-      {/* 12. PRE-FOOTER CTA */}
-      {/* 12. PRE-FOOTER CTA */}
+      {/* 13  . PRE-FOOTER CTA */}
       <section className="py-10 md:py-12 px-4 bg-[#1A332F] relative overflow-hidden">
         {/* Soft, premium light flares to replace heavy gradients */}
         <div className="absolute top-0 right-1/4 w-64 h-64 bg-[#E97724]/10 rounded-full blur-3xl pointer-events-none"></div>
