@@ -16,6 +16,8 @@ export default function LeadForm() {
     full_url: ''
   });
 
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const params = new URLSearchParams(window.location.search);
@@ -35,18 +37,48 @@ export default function LeadForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsSubmitting(true);
     
-    const payload = { ...formData, ...trackingData };
+    // Combine form data, tracking data, and Web3Forms access key
+    const payload = { 
+      access_key: "4071003a-214f-4434-9a2f-679f34013733",
+      subject: "New Consultation Request - Kneev",
+      ...formData, 
+      ...trackingData 
+    };
 
+    // Push to Google Tag Manager / DataLayer
     window.dataLayer = window.dataLayer || [];
     window.dataLayer.push({
       event: 'form_submission',
       form_data: payload
     });
 
-    // TODO: Replace with actual webhook URL
-    console.log("Submitting to Webhook:", payload);
-    alert("Thank you! Your appointment request has been received.");
+    try {
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json"
+        },
+        body: JSON.stringify(payload)
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        alert("Thank you! Your appointment request has been received.");
+        setFormData({ name: '', phone: '', concern: '' }); // Reset the form
+      } else {
+        console.error("Web3Forms API Error:", result);
+        alert(`Submission error: ${result.message || "Something went wrong."}`);
+      }
+    } catch (error) {
+      console.error("Network Error:", error);
+      alert("Network error. Please check your connection and try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -117,9 +149,12 @@ export default function LeadForm() {
         
         <button 
           type="submit" 
-          className="w-full bg-[#E97724] text-white py-3.5 mt-2 rounded-md font-bold text-[15px] hover:bg-[#d66a1d] transition-all flex items-center justify-center"
+          disabled={isSubmitting}
+          className={`w-full bg-[#E97724] text-white py-3.5 mt-2 rounded-md font-bold text-[15px] transition-all flex items-center justify-center ${
+            isSubmitting ? 'opacity-70 cursor-not-allowed' : 'hover:bg-[#d66a1d]'
+          }`}
         >
-          Request Appointment
+          {isSubmitting ? 'Submitting...' : 'Request Appointment'}
         </button>
 
         <p className="text-center text-xs text-gray-500 mt-4">

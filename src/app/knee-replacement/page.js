@@ -16,49 +16,13 @@ import Footer from '@/components/Footer';
 import LeadForm from '@/components/LeadForm';
 
 export default function LandingPage() {
-  const [heroSubmitted, setHeroSubmitted] = useState(false);
-  const [footerSubmitted, setFooterSubmitted] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  
-  const [utms, setUtms] = useState({
-    source: '', medium: '', campaign: '', term: '', content: ''
-  });
-
-  // Safely parse UTM parameters on the client side
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const params = new URLSearchParams(window.location.search);
-      setUtms({
-        source: params.get('utm_source') || '',
-        medium: params.get('utm_medium') || '',
-        campaign: params.get('utm_campaign') || '',
-        term: params.get('utm_term') || '',
-        content: params.get('utm_content') || '',
-      });
-    }
-  }, []);
 
   const formatPhoneForGoogle = (phone) => {
     const cleaned = phone.replace(/\D/g, '');
     return cleaned.length === 10 ? `+91${cleaned}` : `+${cleaned}`;
   };
 
-  const pushToDataLayer = (formData, formLocation) => {
-    const userPhone = formData.get('phone') || '';
-    if (typeof window !== 'undefined') {
-      window.dataLayer = window.dataLayer || [];
-      window.dataLayer.push({
-        event: 'form_submission_success',
-        form_location: formLocation,
-        enhanced_conversion_data: {
-          phone_number: formatPhoneForGoogle(userPhone),
-        },
-        utm_source: utms.source,
-        utm_medium: utms.medium,
-        utm_campaign: utms.campaign,
-      });
-    }
-  };
+
 
   const handleFormSubmit = async (e, formName, setSubmittedState) => {
     e.preventDefault();
@@ -157,15 +121,16 @@ export default function LandingPage() {
             </div>
           </div>
 
-          <div id="booking-form" className="lg:col-span-5 relative w-full max-w-md mx-auto lg:mx-0 lg:ml-auto mt-6 lg:mt-0">
-            <div className="bg-white/95 backdrop-blur-md p-6 md:p-8 rounded-[2rem] shadow-2xl border border-white relative z-10 flex flex-col justify-center">
-              <div className="mb-4 text-center md:text-left">
-                <h3 className="text-xl md:text-2xl font-black text-[#1A332F]">Book Your Assessment</h3>
-                <p className="text-gray-500 text-xs md:text-sm font-medium mt-1">Priority slots available for local residents.</p>
+          <div id="booking-form" className="lg:col-span-5 relative w-full max-w-md mx-auto lg:ml-auto mt-6 lg:mt-0">
+                <div className="bg-white p-6 rounded-3xl shadow-2xl border border-gray-100 relative z-10">
+                  <div className="mb-5 text-center">
+                    <h3 className="text-xl md:text-2xl font-black text-[#1A332F]">Book Consultation</h3>
+                    <p className="text-gray-500 text-xs mt-1 font-medium">Priority slots available today.</p>
+                  </div>
+                  {/* Delegating Form Logic to LeadForm Component */}
+                  <LeadForm source="Hero Section" />
+                </div>
               </div>
-              <LeadForm onSubmit={(e) => handleFormSubmit(e, 'Hero Form', setHeroSubmitted)} />
-            </div>
-          </div>
         </div>
       </section>
 

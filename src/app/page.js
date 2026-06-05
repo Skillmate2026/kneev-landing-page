@@ -15,10 +15,7 @@ import Footer from '../components/Footer';
 import LeadForm from '../components/LeadForm';
 
 export default function LandingPage() {
-  const [heroSubmitted, setHeroSubmitted] = useState(false);
-  const [footerSubmitted, setFooterSubmitted] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  
+
   const [utms, setUtms] = useState({
     source: '', medium: '', campaign: '', term: '', content: ''
   });
@@ -59,29 +56,7 @@ export default function LandingPage() {
     }
   };
 
-  const handleFormSubmit = async (e, formName, setSubmittedState) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    const formData = new FormData(e.target);
-    
-    try {
-      const res = await fetch("https://api.web3forms.com/submit", { 
-        method: "POST", 
-        body: formData 
-      });
-      
-      if (res.ok) {
-        setSubmittedState(true);
-        pushToDataLayer(formData, formName);
-      } else {
-        console.error("Form submission failed", await res.text());
-      }
-    } catch (err) {
-      console.error("Form submission failed", err);
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
+
 
   const smoothScroll = (e, id) => {
     e.preventDefault();
