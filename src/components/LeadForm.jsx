@@ -3,12 +3,21 @@ import React, { useState } from 'react';
 import { CheckCircle } from 'lucide-react';
 import { submitLead } from '../lib/leads';
 
+const DEFAULT_CONCERNS = [
+  "Knee Pain",
+  "Knee Arthritis",
+  "Sports Knee Injury",
+  "Avoiding Knee Replacement",
+  "Knee Second Opinion",
+];
+
 export default function LeadForm({
   mode = "book",                 // "book" stays on-site, "whatsapp" redirects to chat
   location = "",                 // cta_location for attribution
   formTitle = "Book Your Assessment",
   formSubtitle = "",
   buttonText = "Book Your ₹600 Knee Assessment",
+  concernOptions = DEFAULT_CONCERNS,  // dropdown values (per-page)
 }) {
   const [formData, setFormData] = useState({
     name: '',
@@ -119,11 +128,9 @@ export default function LeadForm({
             className="block w-full px-4 py-3 bg-white rounded-md border border-gray-300 focus:ring-2 focus:ring-[#E97724]/50 focus:border-[#E97724] outline-none transition text-gray-800 appearance-none bg-[url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%239CA3AF%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E')] bg-[length:12px_12px] bg-no-repeat bg-[position:right_16px_center]"
           >
             <option value="" disabled>Select your concern</option>
-            <option value="Knee Pain">Knee Pain</option>
-            <option value="Knee Arthritis">Knee Arthritis</option>
-            <option value="Sports Knee Injury">Sports Knee Injury</option>
-            <option value="Avoiding Knee Replacement">Avoiding Knee Replacement</option>
-            <option value="Knee Second Opinion">Knee Second Opinion</option>
+            {concernOptions.map((opt) => (
+              <option key={opt} value={opt}>{opt}</option>
+            ))}
           </select>
         </div>
 
