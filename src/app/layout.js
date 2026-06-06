@@ -6,16 +6,16 @@ import './globals.css';
 const GTM_ID = 'GTM-T4XRZVBB';
 
 export const metadata = {
-  title: 'Expert Knee Pain Treatment in Jayanagar | Advanced Orthopaedic Care',
-  description: 'Consult with experienced orthopaedic specialists in Jayanagar for personalized, non-surgical knee pain and arthritis treatment. Book your consultation today.',
-  keywords: 'knee pain treatment Jayanagar, orthopaedic specialist Jayanagar, arthritis treatment, knee pain relief',
+  title: 'Kneev Orthopaedic Centre, Jayanagar | Honest, Root-Cause Orthopaedic Care',
+  description: 'Knee, back, joint, and sports pain treated by experienced orthopaedic specialists in Jayanagar. Get a thorough, honest assessment that finds the real root cause. Book your consultation today.',
+  keywords: 'orthopaedic specialist Jayanagar, knee pain, joint pain, back pain, sports injury, arthritis treatment, physiotherapy Bengaluru',
   icons: {
-    icon: "/favicon.png", 
-    apple: "/favicon.png", 
+    icon: "/favicon.png",
+    apple: "/favicon.png",
   },
   openGraph: {
-    title: 'Expert Knee Pain Treatment in Jayanagar',
-    description: 'Get advanced care for knee pain and mobility issues.',
+    title: 'Kneev Orthopaedic Centre, Jayanagar',
+    description: 'Honest, root-cause orthopaedic care for knee, back, joint and sports pain.',
     type: 'website',
   },
 };

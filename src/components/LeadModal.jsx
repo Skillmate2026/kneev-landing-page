@@ -19,7 +19,7 @@ const COPY = {
 /**
  * @param {{ data: ({ mode: "whatsapp" | "book", location: string } | null), onClose: () => void }} props
  */
-export default function LeadModal({ data, onClose }) {
+export default function LeadModal({ data, onClose, concernOptions }) {
   const mode = data?.mode ?? null;
   const location = data?.location ?? "";
 
@@ -68,6 +68,7 @@ export default function LeadModal({ data, onClose }) {
           formTitle={copy.title}
           formSubtitle={copy.subtitle}
           buttonText={copy.button}
+          {...(concernOptions ? { concernOptions } : {})}
         />
       </div>
     </div>
