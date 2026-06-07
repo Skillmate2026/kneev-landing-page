@@ -10,9 +10,9 @@ const COPY = {
     button: "Continue to WhatsApp",
   },
   book: {
-    title: "Book Your Assessment",
+    title: "Book Your Consultation",
     subtitle: "Priority slots available for local residents.",
-    button: "Book Your ₹600 Knee Assessment",
+    button: "Book Your Consultation",
   },
 };
 

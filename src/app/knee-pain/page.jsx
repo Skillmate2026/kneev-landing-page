@@ -91,7 +91,7 @@ export default function KneePainLandingPage() {
       </h1>
 
       <p className="text-base md:text-lg text-white/80 leading-relaxed max-w-2xl mx-auto md:mx-0 font-medium">
-        Knee pain slowing you down? At Kneev in Jayanagar, Dr. Amith finds the real root cause of your knee pain and tries every non-surgical option first. Get an honest, unhurried knee assessment for just ₹600. Minutes from JP Nagar, Basavanagudi, Banashankari and BTM Layout.
+        Knee pain slowing you down? At Kneev in Jayanagar, Dr. Amith finds the real root cause of your knee pain and tries every non-surgical option first. Get an honest, unhurried knee assessment today. Minutes from JP Nagar, Basavanagudi, Banashankari and BTM Layout.
       </p>
 
       {/* Google Rating Badge - Glassmorphism style */}
@@ -111,9 +111,9 @@ export default function KneePainLandingPage() {
         <LeadForm
           mode="book"
           location="hero_form"
-          formTitle="Book Your Assessment"
+          formTitle="Book Your Consultation"
           formSubtitle="Priority slots available for local residents."
-          buttonText="Book Your ₹600 Knee Assessment"
+          buttonText="Book Your Consultation"
         />
       </div>
     </div>
@@ -266,7 +266,7 @@ export default function KneePainLandingPage() {
           </div>
           <div className="mt-8">
             <button onClick={() => openBook("kneev_promise")} className="inline-flex items-center gap-2 bg-[#E97724] text-white font-bold text-sm md:text-base px-7 py-3.5 rounded-full shadow-lg hover:bg-[#d66a1d] transition-all">
-              Get an Honest Second Opinion <ArrowRight className="w-4 h-4" />
+              Book Your Consultation <ArrowRight className="w-4 h-4" />
             </button>
           </div>
         </div>
@@ -302,7 +302,7 @@ export default function KneePainLandingPage() {
           </div>
           <div className="text-center mt-10">
             <button onClick={() => openBook("everything_under_one_roof")} className="inline-flex items-center gap-2 bg-[#E97724] text-white font-bold text-sm md:text-base px-7 py-3.5 rounded-full shadow-lg hover:bg-[#d66a1d] transition-all">
-              Book My ₹600 Knee Assessment <ArrowRight className="w-4 h-4" />
+              Book Your Consultation <ArrowRight className="w-4 h-4" />
             </button>
           </div>
         </div>
@@ -345,7 +345,7 @@ export default function KneePainLandingPage() {
           </div>
           <div className="text-center mt-12">
             <button onClick={() => openBook("day_one")} className="inline-flex items-center gap-2 bg-[#1A332F] text-white font-bold text-sm md:text-base px-7 py-3.5 rounded-full shadow-lg hover:opacity-90 transition-all">
-              Book Your Assessment <ArrowRight className="w-4 h-4" />
+              Book Your Consultation <ArrowRight className="w-4 h-4" />
             </button>
           </div>
         </div>
@@ -375,7 +375,7 @@ export default function KneePainLandingPage() {
           </div>
           <div className="text-center mt-10">
             <button onClick={() => openBook("why_choose_kneev")} className="inline-flex items-center gap-2 bg-[#E97724] text-white font-bold text-sm md:text-base px-7 py-3.5 rounded-full shadow-lg hover:bg-[#d66a1d] transition-all">
-              Book My ₹600 Knee Assessment <ArrowRight className="w-4 h-4" />
+              Book Your Consultation <ArrowRight className="w-4 h-4" />
             </button>
           </div>
         </div>
@@ -545,8 +545,8 @@ export default function KneePainLandingPage() {
                 a: "Yes. Many patients visit us for exactly this reason. Bring your reports and Dr. Amith will give you an honest, unbiased assessment."
               },
               {
-                q: "Is the ₹600 fee inclusive of X-rays?",
-                a: "The ₹600 fee covers your complete clinical knee evaluation with Dr. Amith. Digital X-rays and lab diagnostics are charged separately at standard rates."
+                q: "Are X-rays included in the consultation?",
+                a: "Your consultation covers the complete clinical knee evaluation with Dr. Amith. Digital X-rays and lab diagnostics are charged separately at standard rates."
               },
               {
                 q: "What should I bring to my first appointment?",
@@ -600,7 +600,7 @@ export default function KneePainLandingPage() {
               Take the First Step Toward Pain-Free Knees
             </h2>
             <p className="text-white/90 text-base md:text-lg font-medium max-w-xl mx-auto lg:mx-0">
-              You deserve to walk, climb stairs, and sleep without knee pain holding you back. Book your complete knee assessment with Jayanagar&apos;s trusted knee specialist for just ₹600. Priority slots for South Bengaluru residents.
+              You deserve to walk, climb stairs, and sleep without knee pain holding you back. Book your complete knee assessment with Jayanagar&apos;s trusted knee specialist. Priority slots for South Bengaluru residents.
             </p>
 
             <ul className="text-white space-y-3 font-bold text-sm md:text-base hidden md:block mt-6">
@@ -621,9 +621,9 @@ export default function KneePainLandingPage() {
             <LeadForm
               mode="book"
               location="final_cta"
-              formTitle="Book Your Assessment"
+              formTitle="Book Your Consultation"
               formSubtitle="Priority slots available for local residents."
-              buttonText="Book Your ₹600 Knee Assessment"
+              buttonText="Book Your Consultation"
             />
           </div>
 
