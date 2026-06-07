@@ -14,9 +14,9 @@ const DEFAULT_CONCERNS = [
 export default function LeadForm({
   mode = "book",                 // "book" stays on-site, "whatsapp" redirects to chat
   location = "",                 // cta_location for attribution
-  formTitle = "Book Your Assessment",
+  formTitle = "Book Your Consultation",
   formSubtitle = "",
-  buttonText = "Book Your ₹600 Knee Assessment",
+  buttonText = "Book Your Consultation",
   concernOptions = DEFAULT_CONCERNS,  // dropdown values (per-page)
 }) {
   const [formData, setFormData] = useState({

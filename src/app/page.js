@@ -101,7 +101,7 @@ export default function HomePage() {
       </h1>
 
       <p className="text-base md:text-lg text-white/80 leading-relaxed max-w-2xl mx-auto md:mx-0 font-medium">
-        Knee, back, joint, or sports pain wearing you down? At Kneev in Jayanagar, Dr. Amith takes the time to find the real root cause and gives you an honest, personalised treatment plan. Book a thorough orthopaedic assessment for just ₹600. Minutes from JP Nagar, Basavanagudi, Banashankari and BTM Layout.
+        Knee, back, joint, or sports pain wearing you down? At Kneev in Jayanagar, Dr. Amith takes the time to find the real root cause and gives you an honest, personalised treatment plan. Book a thorough orthopaedic assessment today. Minutes from JP Nagar, Basavanagudi, Banashankari and BTM Layout.
       </p>
 
       {/* Google Rating Badge - Glassmorphism style */}
@@ -121,9 +121,9 @@ export default function HomePage() {
         <LeadForm
           mode="book"
           location="hero_form"
-          formTitle="Book Your Assessment"
+          formTitle="Book Your Consultation"
           formSubtitle="Priority slots available for local residents."
-          buttonText="Book My ₹600 Assessment"
+          buttonText="Book Your Consultation"
           concernOptions={CONSULT_CONCERNS}
         />
       </div>
@@ -272,7 +272,7 @@ export default function HomePage() {
           </p>
           <div className="mt-8">
             <button onClick={() => openBook("kneev_promise")} className="inline-flex items-center gap-2 bg-[#E97724] text-white font-bold text-sm md:text-base px-7 py-3.5 rounded-full shadow-lg hover:bg-[#d66a1d] transition-all">
-              Book My ₹600 Assessment <ArrowRight className="w-4 h-4" />
+              Book Your Consultation <ArrowRight className="w-4 h-4" />
             </button>
           </div>
         </div>
@@ -308,7 +308,7 @@ export default function HomePage() {
           </div>
           <div className="text-center mt-10">
             <button onClick={() => openBook("everything_under_one_roof")} className="inline-flex items-center gap-2 bg-[#E97724] text-white font-bold text-sm md:text-base px-7 py-3.5 rounded-full shadow-lg hover:bg-[#d66a1d] transition-all">
-              Book My ₹600 Assessment <ArrowRight className="w-4 h-4" />
+              Book Your Consultation <ArrowRight className="w-4 h-4" />
             </button>
           </div>
         </div>
@@ -351,7 +351,7 @@ export default function HomePage() {
           </div>
           <div className="text-center mt-12">
             <button onClick={() => openBook("day_one")} className="inline-flex items-center gap-2 bg-[#1A332F] text-white font-bold text-sm md:text-base px-7 py-3.5 rounded-full shadow-lg hover:opacity-90 transition-all">
-              Book Your Assessment <ArrowRight className="w-4 h-4" />
+              Book Your Consultation <ArrowRight className="w-4 h-4" />
             </button>
           </div>
         </div>
@@ -381,7 +381,7 @@ export default function HomePage() {
           </div>
           <div className="text-center mt-10">
             <button onClick={() => openBook("why_choose_kneev")} className="inline-flex items-center gap-2 bg-[#E97724] text-white font-bold text-sm md:text-base px-7 py-3.5 rounded-full shadow-lg hover:bg-[#d66a1d] transition-all">
-              Book My ₹600 Assessment <ArrowRight className="w-4 h-4" />
+              Book Your Consultation <ArrowRight className="w-4 h-4" />
             </button>
           </div>
         </div>
@@ -551,8 +551,8 @@ export default function HomePage() {
                 a: "Dr. Amith gives you a full 20 to 30 minute assessment with a proper hands-on exam, so you get a real diagnosis instead of a rushed prescription."
               },
               {
-                q: "Is the ₹600 fee inclusive of X-rays?",
-                a: "The ₹600 fee covers your complete clinical evaluation with Dr. Amith. Digital X-rays and lab diagnostics are charged separately at standard rates."
+                q: "Are X-rays included in the consultation?",
+                a: "Your consultation covers the complete clinical evaluation with Dr. Amith. Digital X-rays and lab diagnostics are charged separately at standard rates."
               },
               {
                 q: "What should I bring to my first appointment?",
@@ -602,7 +602,7 @@ export default function HomePage() {
               Take the First Step Toward a Pain-Free Life
             </h2>
             <p className="text-white/90 text-base md:text-lg font-medium max-w-xl mx-auto lg:mx-0">
-              You deserve to walk, work, and sleep without pain holding you back. Book your complete assessment with Jayanagar&apos;s trusted orthopaedic specialist for just ₹600. Priority slots for South Bengaluru residents.
+              You deserve to walk, work, and sleep without pain holding you back. Book your complete assessment with Jayanagar&apos;s trusted orthopaedic specialist. Priority slots for South Bengaluru residents.
             </p>
 
             <ul className="text-white space-y-3 font-bold text-sm md:text-base hidden md:block mt-6">
@@ -623,9 +623,9 @@ export default function HomePage() {
             <LeadForm
               mode="book"
               location="final_cta"
-              formTitle="Book Your Assessment"
+              formTitle="Book Your Consultation"
               formSubtitle="Priority slots available for local residents."
-              buttonText="Book My ₹600 Assessment"
+              buttonText="Book Your Consultation"
               concernOptions={CONSULT_CONCERNS}
             />
           </div>
