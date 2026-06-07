@@ -162,6 +162,31 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* SERVICES / WHAT WE TREAT */}
+      <section className="py-8 md:py-12 px-4 bg-[#FDFCF8] border-b border-gray-100">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-6 md:mb-8">
+            <span className="text-[#E97724] font-bold text-xs uppercase tracking-widest">What We Treat</span>
+            <h2 className="text-xl md:text-2xl lg:text-3xl font-black text-[#1A332F] mt-1.5">Comprehensive Orthopaedic Care, All in One Place</h2>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4">
+            {[
+              "Knee Pain Treatment",
+              "Back & Spine Care",
+              "Shoulder Pain Treatment",
+              "Sports Injury Care",
+              "Arthritis Management",
+              "Fracture & Trauma Care"
+            ].map((item, i) => (
+              <div key={i} className="flex items-center gap-3 bg-white border border-gray-100 rounded-xl px-4 py-3.5 shadow-sm hover:border-[#E97724]/30 transition-colors duration-300">
+                <CheckCircle className="w-5 h-5 text-[#E97724] flex-shrink-0" />
+                <span className="font-bold text-sm md:text-[15px] text-[#1A332F]">{item}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* 3. THE DOCTOR */}
        <section id="doctor" className="py-10 md:py-14 px-4 bg-white border-b border-gray-100">
         <div className="text-center mb-8 md:mb-10">
