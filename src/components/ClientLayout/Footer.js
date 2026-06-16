@@ -1,4 +1,5 @@
 import React from 'react';
+import Image from 'next/image';
 import { MapPin, Phone, Mail, Clock } from 'lucide-react';
 
 export default function Footer() {
@@ -9,7 +10,7 @@ export default function Footer() {
         {/* Column 1: Logo & Address */}
         <div className="space-y-4">
           <div className="bg-white inline-block p-1.5 rounded-lg mb-2">
-             <img src="/logo.png" alt="Kneev Logo" className="h-8 w-auto" />
+             <Image src="/logo.webp" alt="Kneev Logo" width={843} height={296} className="h-8 w-auto" />
           </div>
           <div className="flex items-start">
             <MapPin className="w-4 h-4 mr-3 text-[#E97724] flex-shrink-0 mt-0.5" />
