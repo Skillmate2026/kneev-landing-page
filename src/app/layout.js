@@ -1,5 +1,6 @@
 import Script from 'next/script';
 import './globals.css';
+import ClientLayout from '../components/ClientLayout/ClientLayout';
 
 // GTM container ID for this site. Hardcoded on purpose — an env-based value renders
 // `id=undefined` if .env is missing, and GTM never loads. See Replication Guide §6 / gotcha #1.
@@ -10,7 +11,7 @@ export const metadata = {
   description: 'Knee, back, joint, and sports pain treated by experienced orthopaedic specialists in Jayanagar. Get a thorough, honest assessment that finds the real root cause. Book your consultation today.',
   keywords: 'orthopaedic specialist Jayanagar, knee pain, joint pain, back pain, sports injury, arthritis treatment, physiotherapy Bengaluru',
   icons: {
-    icon: "/favicon.png",
+    icon: "/favicon.webp",
     apple: "/favicon.png",
   },
   openGraph: {
@@ -51,7 +52,7 @@ export default function RootLayout({ children }) {
           })(window, document, "clarity", "script", "${process.env.NEXT_PUBLIC_CLARITY_ID}");`}
         </Script>
         
-        {children}
+        <ClientLayout>{children}</ClientLayout>
       </body>
     </html>
   );
