@@ -20,7 +20,7 @@ export default function DoctorSection({ imageAlt, subtitle, quote, credentials }
             src="/dr.webp"
             alt={imageAlt}
             fill
-            className="object-cover object-top"
+            className="object-cover object-[center_20%]"
           />
           {/* Mobile-only name overlay so it sits nicely on the image */}
           <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-[#1A332F] via-[#1A332F]/80 to-transparent p-5 pt-12 md:hidden">
