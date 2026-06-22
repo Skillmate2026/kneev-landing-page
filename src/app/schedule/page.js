@@ -45,16 +45,16 @@ export default function SchedulePage() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           
           {/* LEFT COLUMN: Premium Static Calendar */}
-          <div className="lg:col-span-7 bg-white rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.06)] overflow-hidden border border-gray-100 p-6 lg:p-10">
-            <div className="mb-8 border-b-2 border-[var(--color-brand-bgCream)] pb-6 flex items-center space-x-4">
-              <div className="p-3 bg-[var(--color-brand-green)] rounded-xl text-[var(--color-brand-orange)] shadow-inner">
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+          <div className="lg:col-span-7 bg-white rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.06)] overflow-hidden border border-gray-100 p-4 sm:p-6 lg:p-10">
+            <div className="mb-6 sm:mb-8 border-b-2 border-[var(--color-brand-bgCream)] pb-4 sm:pb-6 flex items-center space-x-3 sm:space-x-4">
+              <div className="p-2 sm:p-3 bg-[var(--color-brand-green)] rounded-xl text-[var(--color-brand-orange)] shadow-inner">
+                <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
               </div>
               <div>
-                <h2 className="font-black text-2xl text-[var(--color-brand-green)] tracking-tight">
+                <h2 className="font-black text-xl sm:text-2xl text-[var(--color-brand-green)] tracking-tight">
                   Operating Hours
                 </h2>
-                <p className="text-sm font-bold text-gray-400 mt-1 uppercase tracking-wider">
+                <p className="text-xs sm:text-sm font-bold text-gray-400 mt-1 uppercase tracking-wider">
                   Weekly standard timings
                 </p>
               </div>
@@ -64,27 +64,31 @@ export default function SchedulePage() {
               {staticSchedule.map((item, idx) => (
                 <div
                   key={idx}
-                  className={`w-full flex items-center justify-between p-4 rounded-xl text-left border-l-4 transition-all duration-300 ${
+                  // CRITICAL FIX: Swapped flex for CSS Grid to permanently stop overlapping.
+                  // Added 'pr-16' on mobile to push text away from your floating buttons.
+                  className={`w-full grid grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-3 sm:gap-4 p-3 sm:p-4 pr-16 sm:pr-4 rounded-xl border-l-4 transition-all duration-300 ${
                     item.isSpecial 
                       ? 'bg-[var(--color-brand-bgCream)] border-[var(--color-brand-orange)] hover:bg-orange-50/50' 
                       : 'bg-white shadow-sm border-[var(--color-brand-green)] hover:shadow-md hover:-translate-y-0.5'
                   }`}
                 >
-                  <div className="flex items-center space-x-5">
-                    <div className={`w-14 h-14 rounded-xl flex items-center justify-center font-black text-lg ${
-                      item.isSpecial 
-                        ? 'bg-white text-[var(--color-brand-orange)] shadow-sm' 
-                        : 'bg-[var(--color-brand-bgCream)] text-[var(--color-brand-green)]'
-                    }`}>
-                      {item.day.substring(0, 3)}
-                    </div>
-                    <p className={`font-black text-lg tracking-tight ${item.isSpecial ? 'text-gray-800' : 'text-[var(--color-brand-green)]'}`}>
-                      {item.day}
-                    </p>
+                  {/* 1. Day Box */}
+                  <div className={`w-10 h-10 sm:w-14 sm:h-14 rounded-xl flex items-center justify-center font-black text-sm sm:text-lg flex-shrink-0 ${
+                    item.isSpecial 
+                      ? 'bg-white text-[var(--color-brand-orange)] shadow-sm' 
+                      : 'bg-[var(--color-brand-bgCream)] text-[var(--color-brand-green)]'
+                  }`}>
+                    {item.day.substring(0, 3)}
                   </div>
 
+                  {/* 2. Day Text (Uses truncate to gracefully cut off if space runs out) */}
+                  <p className={`font-black text-sm sm:text-lg tracking-tight truncate ${item.isSpecial ? 'text-gray-800' : 'text-[var(--color-brand-green)]'}`}>
+                    {item.day}
+                  </p>
+
+                  {/* 3. Time Badge */}
                   <div className="text-right">
-                    <span className={`text-sm font-bold px-4 py-2 rounded-lg inline-block ${
+                    <span className={`text-[11px] sm:text-sm font-bold px-2 sm:px-4 py-1.5 sm:py-2 rounded-lg inline-block whitespace-nowrap ${
                       item.isSpecial 
                         ? 'bg-[var(--color-brand-orange)]/10 text-[var(--color-brand-orange)]' 
                         : 'bg-[var(--color-brand-green)] text-white shadow-sm'
@@ -139,8 +143,8 @@ export default function SchedulePage() {
               </ul>
             </div>
 
-            {/* CTA Card */}
-            <div className="bg-white rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] p-6 lg:p-8 border border-gray-100">
+{/* CTA Card */}
+            <div className="bg-white rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] p-5 sm:p-6 lg:p-8 border border-gray-100">
               <h3 className="text-xl font-black text-gray-800 mb-2">Connect to Book</h3>
               <p className="text-sm font-medium text-gray-500 mb-6 leading-relaxed">
                 Message our front desk to coordinate your final appointment time.
@@ -151,10 +155,13 @@ export default function SchedulePage() {
                   href={whatsappLink} 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="w-full flex items-center justify-center space-x-3 py-4 bg-[var(--color-brand-lightGreen)] hover:bg-[#00a843] text-white rounded-xl text-base font-bold transition-all shadow-md hover:-translate-y-1 btn-glow"
+                  // FIX 1: Changed to text-sm on mobile, added px-4, and used gap instead of space-x
+                  className="w-full flex items-center justify-center gap-2 sm:gap-3 px-4 py-3 sm:py-4 bg-[var(--color-brand-lightGreen)] hover:bg-[#00a843] text-white rounded-xl text-sm sm:text-base font-bold transition-all shadow-md hover:-translate-y-1 btn-glow"
                 >
-                  <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.347-.272.297-1.04 1.016-1.04 2.479 0 1.463 1.065 2.876 1.213 3.074.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
-                  <span>Continue to WhatsApp</span>
+                  {/* FIX 2: Added flex-shrink-0 to the SVG so it never gets crushed */}
+                  <svg className="w-5 h-5 sm:w-6 sm:h-6 flex-shrink-0" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.347-.272.297-1.04 1.016-1.04 2.479 0 1.463 1.065 2.876 1.213 3.074.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+                  {/* FIX 3: Added text-center and leading-tight for graceful wrapping */}
+                  <span className="text-center leading-tight">Continue to WhatsApp</span>
                 </a>
 
                 <div className="flex items-center justify-center space-x-4 py-2">
@@ -165,10 +172,11 @@ export default function SchedulePage() {
 
                 <a 
                   href="tel:+916366700736" 
-                  className="w-full flex items-center justify-center space-x-3 py-4 bg-white border-2 border-[var(--color-brand-green)] hover:bg-[var(--color-brand-green)] hover:text-white text-[var(--color-brand-green)] rounded-xl text-base font-bold transition-all"
+                  // Applied the exact same layout fixes to the Call button so they match perfectly
+                  className="w-full flex items-center justify-center gap-2 sm:gap-3 px-4 py-3 sm:py-4 bg-white border-2 border-[var(--color-brand-green)] hover:bg-[var(--color-brand-green)] hover:text-white text-[var(--color-brand-green)] rounded-xl text-sm sm:text-base font-bold transition-all"
                 >
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
-                  <span>Call the Clinic</span>
+                  <svg className="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
+                  <span className="text-center leading-tight">Call the Clinic</span>
                 </a>
               </div>
             </div>
