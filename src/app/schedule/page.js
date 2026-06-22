@@ -183,7 +183,12 @@ export default function SchedulePage() {
                 <p className="text-sm font-medium text-gray-500 leading-relaxed mb-3">
                   Ground floor, 334/28, 14th Cross Rd, 2nd Block, Jayanagar, Bengaluru 560011
                 </p>
-                <a href="#" className="text-sm font-bold text-[var(--color-brand-orange)] hover:underline inline-flex items-center">
+                <a 
+                  href="https://www.google.com/maps/dir/?api=1&destination=Kneev+Orthopaedic+Center&destination_place_id=ChIJKbA3dsMVrjsRY4Lzf4T72lE" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="text-sm font-bold text-[var(--color-brand-orange)] hover:underline inline-flex items-center"
+                >
                   Get Directions <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7"></path></svg>
                 </a>
               </div>
