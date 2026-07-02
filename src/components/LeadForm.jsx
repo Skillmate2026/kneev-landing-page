@@ -1,6 +1,6 @@
 'use client';
 import { useState } from 'react';
-import { CheckCircle } from 'lucide-react';
+
 import { submitLead } from '../lib/leads';
 
 const DEFAULT_CONCERNS = [
@@ -25,7 +25,6 @@ export default function LeadForm({
     concern: '',
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -35,8 +34,6 @@ export default function LeadForm({
     e.preventDefault();
     setIsSubmitting(true);
 
-    // submitLead pushes GTM + POSTs the webhook. For WhatsApp it redirects (this page
-    // unloads); for "book" it returns and we show the thank-you state below.
     submitLead({
       mode,
       location,
@@ -44,27 +41,7 @@ export default function LeadForm({
       phone: formData.phone,
       concern: formData.concern,
     });
-
-    if (mode === "book") {
-      setSubmitted(true);
-    }
   };
-
-  if (submitted) {
-    return (
-      <div className="w-full text-center py-6">
-        <div className="w-14 h-14 rounded-full bg-[#F47C20]/10 flex items-center justify-center mx-auto mb-4">
-          <CheckCircle className="w-8 h-8 text-[#F47C20]" />
-        </div>
-        <h3 className="text-xl font-bold text-[#1F4D46]">Request received!</h3>
-        <p className="text-sm text-gray-600 font-medium mt-2 leading-relaxed">
-          Thank you, {formData.name || "there"}. Our team will call you shortly to confirm your
-          priority slot. For anything urgent, call us at{" "}
-          <a href="tel:+916366700736" className="text-[#F47C20] font-bold">+91 636 670 0736</a>.
-        </p>
-      </div>
-    );
-  }
 
   return (
     <div className="w-full">

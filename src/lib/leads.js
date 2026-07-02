@@ -85,8 +85,8 @@ export function submitLead(args) {
     }).catch(() => {});
   }
 
-  // 3. WhatsApp flow redirects to the chat; "book" flow stays on-site.
-  if (mode === "whatsapp" && typeof window !== "undefined") {
+  // 3. Redirect to WhatsApp with consultation message.
+  if (typeof window !== "undefined") {
     const text = `Hi, I'm ${name} (${phone}). I'm looking for a knee replacement surgery consultation.`;
     window.location.href = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`;
   }
