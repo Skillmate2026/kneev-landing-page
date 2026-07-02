@@ -36,7 +36,7 @@ export default function KneePainLandingPage() {
   };
 
   return (
-    <main className="min-h-screen bg-[#FDFCF8] selection:bg-[#E97724] selection:text-white font-sans overflow-x-hidden pb-16 md:pb-0">
+    <main className="min-h-screen bg-[#F8F8F6] selection:bg-[#F47C20] selection:text-white font-sans overflow-x-hidden pb-16 md:pb-0">
       <Script id="schema-markup" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaMarkup) }} />
 
       <HeroSection {...content.hero} />

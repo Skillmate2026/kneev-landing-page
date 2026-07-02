@@ -7,16 +7,16 @@ import ClientLayout from '../components/ClientLayout/ClientLayout';
 const GTM_ID = 'GTM-T4XRZVBB';
 
 export const metadata = {
-  title: 'Kneev Orthopaedic Centre, Jayanagar | Honest, Root-Cause Orthopaedic Care',
-  description: 'Knee, back, joint, and sports pain treated by experienced orthopaedic specialists in Jayanagar. Get a thorough, honest assessment that finds the real root cause. Book your consultation today.',
-  keywords: 'orthopaedic specialist Jayanagar, knee pain, joint pain, back pain, sports injury, arthritis treatment, physiotherapy Bengaluru',
+  title: 'Robotic Knee Replacement in Bangalore | Kneev Orthopaedic Centre',
+  description: 'Expert robotic knee replacement in Bangalore using state-of-the-art precision technology. Minimal pain, faster recovery, long-lasting results. Book a free consultation today.',
+  keywords: 'robotic knee replacement Bangalore, robotic knee surgery, knee replacement Bangalore, robotic joint replacement, knee surgery Jayanagar',
   icons: {
     icon: "/favicon.webp",
     apple: "/favicon.png",
   },
   openGraph: {
-    title: 'Kneev Orthopaedic Centre, Jayanagar',
-    description: 'Honest, root-cause orthopaedic care for knee, back, joint and sports pain.',
+    title: 'Robotic Knee Replacement in Bangalore | Kneev Orthopaedic Centre',
+    description: 'Expert robotic knee replacement with sub-millimeter precision. Faster recovery, less pain, long-lasting results.',
     type: 'website',
   },
 };
