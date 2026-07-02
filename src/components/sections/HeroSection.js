@@ -3,7 +3,7 @@ import { ArrowRight } from 'lucide-react';
 export default function HeroSection({ headline, headlineAccent, subcopy, ctaPrimary, ctaSecondary, onOpenModal }) {
   return (
     <section className="relative pt-12 pb-14 md:pt-20 md:pb-24 px-4 overflow-hidden bg-[#162126]"
-      style={{ backgroundImage: 'url(/hero-section-robotic.png)', backgroundSize: 'cover', backgroundPosition: 'center' }}>
+      style={{ backgroundImage: 'url(/hero-section-robotic.webp)', backgroundSize: 'cover', backgroundPosition: 'center' }}>
       <div className="absolute inset-0 bg-gradient-to-r from-[#162126]/90 via-[#162126]/75 to-[#162126]/50 z-0"></div>
 
       <div className="max-w-7xl mx-auto relative z-10">
