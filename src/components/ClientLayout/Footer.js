@@ -38,12 +38,18 @@ export default function Footer() {
         </div>
       </div>
 
-      <div className="max-w-6xl mx-auto px-4 mt-8 pt-6 border-t border-white/10">
+      <div className="max-w-6xl mx-auto px-4 mt-6 pt-4 border-t border-white/10">
+        <p className="text-[11px] text-white/40 font-medium leading-relaxed text-center max-w-4xl mx-auto">
+          Disclaimer: The information provided on this website is for educational and informational purposes only and does not constitute medical advice. Results may vary from person to person. Knee surgery involves risks, and you should consult a qualified medical professional for a proper diagnosis and treatment plan tailored to your condition. Neither Kneev Orthopaedic Centre nor Dr. Amith P. Shetty guarantee specific outcomes.
+        </p>
+      </div>
+
+      <div className="max-w-6xl mx-auto px-4 mt-4 pt-4 border-t border-white/10">
         <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-xs font-medium text-white/50">
           <p>&copy; {new Date().getFullYear()} KNEEV Orthopaedic Centre. All rights reserved.</p>
           <div className="flex gap-4">
-            <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
-            <a href="#" className="hover:text-white transition-colors">Terms of Service</a>
+            <a href="/privacy-policy" className="hover:text-white transition-colors">Privacy Policy</a>
+            <a href="/terms-of-service" className="hover:text-white transition-colors">Terms of Service</a>
           </div>
         </div>
       </div>

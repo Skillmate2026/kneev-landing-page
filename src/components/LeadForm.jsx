@@ -157,6 +157,10 @@ export default function LeadForm({
           )}
         </button>
 
+        <p className="text-[11px] text-gray-400 font-medium text-center mt-3 leading-relaxed">
+          By submitting, you consent to Kneev Orthopaedic Centre contacting you regarding your consultation. We respect your privacy and will not share your information.
+        </p>
+
       </form>
     </div>
   );

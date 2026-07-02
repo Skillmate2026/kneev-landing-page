@@ -32,7 +32,7 @@ export default function InstantTrustSection({ name, title, rating, reviewCount }
 
             <div className="mt-6 space-y-4">
               <p className="text-sm md:text-base text-gray-700 font-medium leading-relaxed">
-                Dr. Amith P. Shetty is one of the top robotic knee surgeons in India, with 2,500+ successful knee replacements and a 98%+ success rate. Patients travel from across the country for his precision and expertise.
+                Dr. Amith P. Shetty is one of the leading robotic knee surgeons in India, with 2,500+ successful knee replacements and excellent clinical outcomes. Patients travel from across the country for his precision and expertise.
               </p>
               <p className="text-sm md:text-base text-gray-700 font-medium leading-relaxed">
                 He is brutally honest - he will clearly tell you whether surgery is even needed, and will never recommend a procedure unless it is truly the right option for you.
