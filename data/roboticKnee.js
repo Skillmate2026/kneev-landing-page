@@ -74,7 +74,7 @@ export const faqs = [
   { q: `How long is the consultation?`, a: `Dr. Amith gives you a thorough, unhurried consultation - typically 20-30 minutes - so you leave with clear answers, not more questions.` },
   { q: `Can I book online?`, a: `Yes. Simply fill the form on this page and our team will confirm your appointment. You can also call us directly at +91 636 670 0736.` },
   { q: `Will I know if surgery is necessary?`, a: `Yes. After examining your knee and reviewing your reports, Dr. Amith will clearly explain whether surgery is recommended or if a non-surgical approach is better for you.` },
-  { q: `Does insurance cover the consultation?`, a: `Your first consultation is completely free. For surgery, we have cashless insurance tie-ups with Apollo and Manipal Hospitals and support all major insurance plans.` },
+  { q: `Does insurance cover the consultation?`, a: `Your first consultation is completely complimentary. For surgery, we have cashless insurance tie-ups with Apollo and Manipal Hospitals and support all major insurance plans.` },
   { q: `What if I'm not sure about surgery?`, a: `That's exactly why the consultation exists. There is zero obligation to proceed with surgery. Dr. Amith will explain all your options so you can make an informed decision.` },
   { q: `Can I bring a family member?`, a: `Yes, we encourage you to bring a family member. It helps to have someone else hear the recommendations and ask questions too.` },
 ];
@@ -83,7 +83,7 @@ export const finalCta = {
   heading: `Still Wondering if Robotic Knee Surgery Is Right for You?`,
   copy: `Get an expert opinion before you decide.`,
   ctaText: `Book Consultation`,
-  subText: `Free consultation · No obligation · Honest advice`,
+  subText: `No obligation · Honest advice`,
 };
 
 export const CONCERN_OPTIONS = [
