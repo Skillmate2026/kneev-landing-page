@@ -7,18 +7,18 @@ export default function HeroSection({ headline, headlineAccent, subcopy, ctaPrim
       <div className="absolute inset-0 bg-gradient-to-r from-[#162126]/90 via-[#162126]/75 to-[#162126]/50 z-0"></div>
 
       <div className="max-w-7xl mx-auto relative z-10">
-        <div className="max-w-2xl space-y-7 text-center md:text-left">
+        <div className="max-w-3xl mx-auto space-y-7 text-center">
 
           <h1 className="text-[1.8rem] sm:text-4xl lg:text-[3.5rem] font-black text-white leading-[1.1] tracking-tight">
             {headline}<br/>
             {headlineAccent}
           </h1>
 
-          <p className="text-sm md:text-lg text-[#E8E8E8] leading-relaxed max-w-xl font-medium">
+          <p className="text-sm md:text-lg text-[#E8E8E8] leading-relaxed max-w-2xl mx-auto font-medium">
             {subcopy}
           </p>
 
-          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 justify-center md:justify-start">
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 justify-center">
             <button onClick={onOpenModal} className="inline-flex items-center justify-center gap-2 bg-[#F47C20] text-white font-bold text-sm md:text-base px-7 md:px-8 py-3.5 md:py-4 rounded-full shadow-xl hover:bg-[#E56E16] hover:shadow-2xl hover:scale-[1.03] transition-all duration-300">
               {ctaPrimary || `Book Consultation`} <ArrowRight className="w-4 h-4" />
             </button>
