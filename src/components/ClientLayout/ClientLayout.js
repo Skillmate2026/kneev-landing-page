@@ -5,6 +5,7 @@ import { usePathname } from 'next/navigation';
 import Navbar from './Navbar';
 import Footer from './Footer';
 import FloatingButtons from './FloatingButtons';
+import AppointmentPopup from '../popup/AppointmentPopup';
 
 /**
  * Site-wide client shell. Renders the global Navbar, Footer and the fixed
@@ -23,7 +24,8 @@ export default function ClientLayout({ children }) {
       <Navbar hideBookCta={hideBookCta} />
       {children}
       <Footer />
-      <FloatingButtons hideBookCta={hideBookCta} />
+      <FloatingButtons />
+      <AppointmentPopup />
     </>
   );
 }

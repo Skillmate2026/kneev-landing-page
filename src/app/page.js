@@ -4,6 +4,7 @@ import React from 'react';
 import Script from 'next/script';
 
 import LeadModal from '@/components/LeadModal';
+import { setFormInteracted } from '@/components/popup/useAppointmentPopup';
 import HeroSection from '@/components/sections/HeroSection';
 import SocialProofBar from '@/components/sections/SocialProofBar';
 import ServicesSection from '@/components/sections/ServicesSection';
@@ -27,13 +28,13 @@ export default function HomePage() {
   const [modal, setModal] = React.useState(null);
 
   const openBook = (location) => {
+    setFormInteracted();
     pushDataLayer({ event: "book_appointment_click", cta_location: location });
     setModal({ mode: "book", location });
   };
 
   const handleCallClick = (location) => {
     pushDataLayer({ event: "call_click", cta_location: location });
-    // the tel: anchor still dials natively
   };
 
   return (
@@ -53,8 +54,6 @@ export default function HomePage() {
       <FaqSection faqs={content.faqs} />
       <FinalCtaSection {...content.finalCta} concernOptions={CONSULT_CONCERNS} />
 
-      {/* FORM POPUP MODAL — opened by in-page CTAs (Navbar, Footer and the
-          floating action buttons are global, rendered in ClientLayout) */}
       <LeadModal data={modal} onClose={() => setModal(null)} concernOptions={CONSULT_CONCERNS} />
     </main>
   );

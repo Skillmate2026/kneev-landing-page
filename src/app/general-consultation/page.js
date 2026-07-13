@@ -3,9 +3,6 @@
 import React from 'react';
 import Script from 'next/script';
 
-import LeadModal from '@/components/LeadModal';
-import { setFormInteracted } from '@/components/popup/useAppointmentPopup';
-import HeroSection from '@/components/sections/HeroSection';
 import SocialProofBar from '@/components/sections/SocialProofBar';
 import ServicesSection from '@/components/sections/ServicesSection';
 import DoctorSection from '@/components/sections/DoctorSection';
@@ -16,32 +13,27 @@ import WhyChooseSection from '@/components/sections/WhyChooseSection';
 import TestimonialsSection from '@/components/sections/TestimonialsSection';
 import ClinicInfoSection from '@/components/sections/ClinicInfoSection';
 import FaqSection from '@/components/sections/FaqSection';
-import FinalCtaSection from '@/components/sections/FinalCtaSection';
+import HeroSection from './sections/HeroSection';
+import FinalCtaSection from './sections/FinalCtaSection';
 
 import { pushDataLayer } from '@/lib/leads';
 import { schemaMarkup } from '@data/clinic';
-import * as content from '@data/kneePain';
+import * as content from './content';
 
-export default function KneePainLandingPage() {
-  // { mode: "whatsapp" | "book", location: string } | null
-  const [modal, setModal] = React.useState(null);
-
+export default function GeneralConsultationPage() {
   const openBook = (location) => {
-    setFormInteracted();
     pushDataLayer({ event: "book_appointment_click", cta_location: location });
-    setModal({ mode: "book", location });
   };
 
   const handleCallClick = (location) => {
     pushDataLayer({ event: "call_click", cta_location: location });
-    // the tel: anchor still dials natively
   };
 
   return (
     <main className="min-h-screen bg-[#FDFCF8] selection:bg-[#E97724] selection:text-white font-sans overflow-x-hidden pb-16 md:pb-0">
       <Script id="schema-markup" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaMarkup) }} />
 
-      <HeroSection {...content.hero} />
+      <HeroSection {...content.hero} concernOptions={content.CONCERN_OPTIONS} />
       <SocialProofBar stats={content.stats} />
       <ServicesSection {...content.services} />
       <DoctorSection {...content.doctor} />
@@ -52,11 +44,7 @@ export default function KneePainLandingPage() {
       <TestimonialsSection {...content.testimonials} />
       <ClinicInfoSection heading={content.clinicHeading} onCall={handleCallClick} />
       <FaqSection faqs={content.faqs} />
-      <FinalCtaSection {...content.finalCta} />
-
-      {/* FORM POPUP MODAL — opened by in-page CTAs (Navbar, Footer and the
-          floating action buttons are global, rendered in ClientLayout) */}
-      <LeadModal data={modal} onClose={() => setModal(null)} />
+      <FinalCtaSection {...content.finalCta} concernOptions={content.CONCERN_OPTIONS} />
     </main>
   );
 }

@@ -3,6 +3,7 @@
 import React from 'react';
 import { CalendarCheck } from 'lucide-react';
 import LeadModal from '../LeadModal';
+import { setFormInteracted } from '../popup/useAppointmentPopup';
 import { pushDataLayer } from '../../lib/leads';
 
 const CONSULT_CONCERNS = [
@@ -24,11 +25,13 @@ export default function FloatingButtons({ hideBookCta = false }) {
   const [modal, setModal] = React.useState(null);
 
   const openBook = (location) => {
+    setFormInteracted();
     pushDataLayer({ event: "book_appointment_click", cta_location: location });
     setModal({ mode: "book", location });
   };
 
   const openWhatsApp = (location) => {
+    setFormInteracted();
     pushDataLayer({ event: "whatsapp_click", cta_location: location });
     setModal({ mode: "whatsapp", location });
   };
