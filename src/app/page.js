@@ -1,5 +1,6 @@
 "use client";
 
+import React from 'react';
 import Script from 'next/script';
 
 import LeadModal from '@/components/LeadModal';
@@ -15,7 +16,8 @@ import SimpleBookingProcess from '@/components/sections/SimpleBookingProcess';
 import FaqSection from '@/components/sections/FaqSection';
 import FinalCtaSection from '@/components/sections/FinalCtaSection';
 
-import React from 'react';
+import { pushDataLayer } from '@/lib/leads';
+import { CONSULT_CONCERNS } from '@data/concerns';
 import { schemaMarkup } from '@data/clinic';
 import * as content from '@data/roboticKnee';
 
