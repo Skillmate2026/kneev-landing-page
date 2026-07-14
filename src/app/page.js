@@ -19,8 +19,8 @@ import FaqSection from '@/components/sections/FaqSection';
 import FinalCtaSection from '@/components/sections/FinalCtaSection';
 
 import { pushDataLayer } from '@/lib/leads';
-import { schemaMarkup } from '@data/clinic';
 import { CONSULT_CONCERNS } from '@data/concerns';
+import { schemaMarkup } from '@data/clinic';
 import * as content from '@data/home';
 
 export default function HomePage() {

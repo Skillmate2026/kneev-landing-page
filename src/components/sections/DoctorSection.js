@@ -22,7 +22,6 @@ export default function DoctorSection({ imageAlt, subtitle, quote, credentials }
               alt={imageAlt}
               fill
               className="object-cover object-top lg:object-contain lg:object-center"
-              style={{ transform: 'rotate(270deg)', transformOrigin: 'center center' }}
             />
           </div>
           {/* Mobile-only name overlay so it sits nicely on the image */}
