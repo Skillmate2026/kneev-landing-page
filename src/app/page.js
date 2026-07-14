@@ -19,7 +19,7 @@ import FinalCtaSection from '@/components/sections/FinalCtaSection';
 import { pushDataLayer } from '@/lib/leads';
 import { CONSULT_CONCERNS } from '@data/concerns';
 import { schemaMarkup } from '@data/clinic';
-import * as content from '@data/home';
+import * as content from '@data/roboticKnee';
 
 export default function HomePage() {
   const [modal, setModal] = React.useState(null);
