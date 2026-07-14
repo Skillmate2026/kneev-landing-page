@@ -1,12 +1,9 @@
 import Image from 'next/image';
 import { CheckCircle, Award } from 'lucide-react';
 
-/**
- * "Meet Dr. Amith" profile card.
- * @param {{ imageAlt: string, subtitle: string, quote: string,
- *   credentials: { bold: string, text: string }[] }} props
- */
-export default function DoctorSection({ imageAlt, subtitle, quote, credentials }) {
+function BioBlock({ bio }) {
+  const paragraphs = bio.split('\n\n');
+  const bullets = paragraphs.filter(p => p.startsWith('*'));
   return (
     <section id="doctor" className="py-10 md:py-16 lg:py-20 px-4 bg-white border-b border-gray-100">
       <div className="text-center mb-8 md:mb-12">
@@ -27,7 +24,7 @@ export default function DoctorSection({ imageAlt, subtitle, quote, credentials }
           {/* Mobile-only name overlay so it sits nicely on the image */}
           <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-[#1A332F] via-[#1A332F]/80 to-transparent p-5 pt-12 md:hidden">
             <h3 className="text-white font-black text-2xl">Dr. Amith P. Shetty</h3>
-            <p className="text-[#E97724] font-bold text-xs uppercase tracking-wider mt-1">{subtitle}</p>
+            <p className="text-[#F47C20] font-bold text-xs uppercase tracking-wider mt-1">{subtitle}</p>
           </div>
         </div>
 
@@ -63,11 +60,28 @@ export default function DoctorSection({ imageAlt, subtitle, quote, credentials }
                   <span><strong>{c.bold}</strong>{c.text}</span>
                 </li>
               ))}
-            </ul>
-          </div>
+            </div>
+          )}
 
+          {showLegacyBlocks && (
+            <div className="space-y-3 bg-white p-4 md:p-5 rounded-xl border border-gray-100 shadow-sm">
+              <h4 className="font-bold text-[#1F4D46] text-sm flex items-center border-b border-gray-100 pb-2 mb-3 uppercase tracking-wide">
+                <Award className="w-4 h-4 mr-2 text-[#F47C20]" /> Founder &amp; Chief Orthopaedic Surgeon
+              </h4>
+              <ul className="space-y-2.5 text-xs md:text-sm text-gray-700 font-medium">
+                {credentials.map((c, i) => (
+                  <li key={i} className="flex items-start">
+                    <CheckCircle className="w-4 h-4 text-[#F47C20] mr-2.5 flex-shrink-0 mt-0.5" />
+                    <span><strong>{c.bold}</strong>{c.text}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
         </div>
       </div>
+
+      {bio && <BioBlock bio={bio} />}
     </section>
   );
 }

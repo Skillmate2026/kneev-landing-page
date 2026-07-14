@@ -1,64 +1,113 @@
 "use client";
 
-import { Star } from 'lucide-react';
+import { useRef, useState, useEffect, useCallback } from 'react';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 
-/**
- * Horizontally-scrolling patient testimonials.
- * @param {{ heading: string, items: { name: string, loc: string, text: string }[] }} props
- */
 export default function TestimonialsSection({ heading, items }) {
+  const scrollRef = useRef(null);
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  const scrollTo = useCallback((index) => {
+    if (!scrollRef.current) return;
+    const cards = scrollRef.current.children;
+    if (cards[index]) {
+      cards[index].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+      setCurrentIndex(index);
+    }
+  }, []);
+
+  const scrollBy = useCallback((direction) => {
+    if (!scrollRef.current) return;
+    const cards = scrollRef.current.children;
+    const cardWidth = cards[0]?.getBoundingClientRect().width + 16 || 1;
+    const next = currentIndex + direction;
+    if (next < 0) {
+      scrollTo(items.length - 1);
+    } else if (next >= items.length) {
+      scrollTo(0);
+    } else if (cardWidth) {
+      scrollRef.current.scrollBy({ left: direction * cardWidth, behavior: 'smooth' });
+    }
+  }, [currentIndex, items.length, scrollTo]);
+
+  useEffect(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+    const onScroll = () => {
+      const scrollPos = el.scrollLeft;
+      const cardWidth = el.children[0]?.getBoundingClientRect().width + 16 || 1;
+      const idx = Math.round(scrollPos / cardWidth);
+      setCurrentIndex(Math.min(idx, items.length - 1));
+    };
+    el.addEventListener('scroll', onScroll);
+    return () => el.removeEventListener('scroll', onScroll);
+  }, [items.length]);
+
   return (
-    <section className="py-10 md:py-14 px-4 bg-[#FDFCF8] border-t border-gray-100 overflow-hidden">
+    <section className="py-14 md:py-20 px-4 bg-white border-t border-gray-100 overflow-hidden">
       <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-8 space-y-2">
-          <h2 className="text-2xl md:text-3xl lg:text-4xl font-black text-[#1A332F] tracking-tight">
+        <div className="text-center mb-8 md:mb-10 space-y-3">
+          <h2 className="text-2xl md:text-4xl lg:text-4xl font-black text-[#1F4D46] leading-tight">
             {heading}
           </h2>
-          <p className="text-sm md:text-base text-gray-600 font-medium max-w-xl mx-auto">
-            Trusted by your neighbours across South Bengaluru.
+          <p className="text-sm md:text-base text-gray-500 font-medium max-w-xl mx-auto">
+            Real Google reviews from your neighbours across South Bengaluru.
           </p>
         </div>
 
-        <div className="relative -mx-4 px-4 md:mx-0 md:px-0">
-          {/* The auto-scrolling container with explicit scrollbar hiding classes */}
+        <div className="relative">
+          <button
+            onClick={() => scrollBy(-1)}
+            aria-label="Previous testimonial"
+            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-3 z-10 w-10 h-10 md:w-12 md:h-12 rounded-full bg-white shadow-lg border border-gray-100 flex items-center justify-center text-[#1F4D46] hover:text-[#F47C20] hover:shadow-xl transition-all duration-300"
+          >
+            <ChevronLeft className="w-4 h-4 md:w-5 md:h-5" />
+          </button>
+
           <div
-            id="testimonial-scroll"
-            className="flex overflow-x-auto pb-4 gap-4 md:gap-5 snap-x snap-mandatory scroll-smooth [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
-            onMouseEnter={() => window.pauseScroll = true}
-            onMouseLeave={() => window.pauseScroll = false}
-            onTouchStart={() => window.pauseScroll = true}
-            onTouchEnd={() => { setTimeout(() => window.pauseScroll = false, 3000) }}
+            ref={scrollRef}
+            className="flex overflow-x-auto pb-4 gap-5 md:gap-6 snap-x snap-mandatory scroll-smooth [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
           >
             {items.map((tst, idx) => (
               <div
                 key={idx}
-                className="min-w-[280px] md:min-w-[320px] max-w-[320px] flex-shrink-0 snap-center bg-white p-5 md:p-6 rounded-2xl shadow-[0_4px_20px_rgb(0,0,0,0.04)] border border-gray-100 flex flex-col justify-between"
+                className="min-w-[280px] md:min-w-[340px] max-w-[340px] flex-shrink-0 snap-center bg-[#F8F8F6] p-6 md:p-8 rounded-2xl shadow-sm flex flex-col justify-between"
               >
                 <div>
-                  <div className="mb-3 flex justify-between items-center">
-                    <div className="flex gap-0.5">
-                      {[...Array(5)].map((_, i) => <Star key={i} className="w-4 h-4 text-[#FFBF23] fill-current" />)}
-                    </div>
-                    <svg className="w-5 h-5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
-                      <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
-                      <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
-                      <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
-                    </svg>
-                  </div>
-                  <p className="text-gray-700 text-sm md:text-[15px] font-medium leading-relaxed mb-5">&ldquo;{tst.text}&rdquo;</p>
+                  <p className="text-gray-600 text-sm md:text-base font-medium leading-relaxed mb-6">&ldquo;{tst.text}&rdquo;</p>
                 </div>
 
-                <div className="flex items-center pt-3 border-t border-gray-50">
-                  <div className="w-8 h-8 rounded-full bg-[#E97724]/10 text-[#E97724] flex items-center justify-center font-bold text-sm mr-3">
+                <div className="flex items-center pt-4 border-t border-gray-200/60">
+                  <div className="w-9 h-9 rounded-full bg-[#F47C20]/10 text-[#F47C20] flex items-center justify-center font-bold text-sm mr-3">
                     {tst.name.charAt(0)}
                   </div>
                   <div>
-                    <div className="font-bold text-[#1A332F] text-sm leading-tight">{tst.name}</div>
+                    <div className="font-bold text-[#1F4D46] text-sm">{tst.name}</div>
                     <div className="text-gray-500 font-medium text-xs">{tst.loc}</div>
                   </div>
                 </div>
               </div>
+            ))}
+          </div>
+
+          <button
+            onClick={() => scrollBy(1)}
+            aria-label="Next testimonial"
+            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-3 z-10 w-10 h-10 md:w-12 md:h-12 rounded-full bg-white shadow-lg border border-gray-100 flex items-center justify-center text-[#1F4D46] hover:text-[#F47C20] hover:shadow-xl transition-all duration-300"
+          >
+            <ChevronRight className="w-4 h-4 md:w-5 md:h-5" />
+          </button>
+
+          <div className="flex justify-center gap-2.5 mt-5">
+            {items.map((_, idx) => (
+              <button
+                key={idx}
+                onClick={() => scrollTo(idx)}
+                aria-label={`Go to testimonial ${idx + 1}`}
+                className={`h-2.5 rounded-full transition-all duration-300 ${
+                  idx === currentIndex ? 'bg-[#F47C20] w-6' : 'bg-gray-300 hover:bg-gray-400 w-2.5'
+                }`}
+              />
             ))}
           </div>
         </div>

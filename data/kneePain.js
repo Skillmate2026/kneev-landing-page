@@ -52,7 +52,7 @@ export const promise = {
   headlineLine1: `Knee Surgery Is Our Last Resort, `,
   headlineLine2: `Not Our First Suggestion`,
   copyHtml: `Too many patients are told &ldquo;you need a knee replacement&rdquo; before anyone has truly tried to fix the cause. We do the opposite. <strong class="text-white">Many of our patients recover fully</strong> through accurate diagnosis, guided physiotherapy, and conservative treatment, with no operation needed.`,
-  noteHtml: `Already been told you need a knee replacement? <span class="text-[#E97724]">Bring your reports.</span> Dr. Amith will give you an honest, unbiased second opinion.`,
+  noteHtml: `Already been told you need a knee replacement? <span class="text-[#F47C20]">Bring your reports.</span> Dr. Amith will give you an honest, unbiased second opinion.`,
 };
 
 export const oneRoof = {

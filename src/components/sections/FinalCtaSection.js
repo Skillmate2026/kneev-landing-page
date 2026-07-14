@@ -1,49 +1,29 @@
-import { CheckCircle } from 'lucide-react';
-import LeadForm from '@/components/LeadForm';
+import { ArrowRight } from 'lucide-react';
 
-/**
- * Closing call-to-action with lead form.
- * @param {{ heading: string, copy: string, points: string[],
- *   concernOptions?: string[] }} props
- */
-export default function FinalCtaSection({ heading, copy, points, concernOptions }) {
+export default function FinalCtaSection({ heading, copy, ctaText, subText, onOpenModal }) {
   return (
-    <section className="py-12 md:py-20 px-4 bg-[#E97724] relative overflow-hidden">
-      {/* Subtle dot pattern background */}
-      <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'radial-gradient(#ffffff 2px, transparent 2px)', backgroundSize: '30px 30px' }}></div>
+    <section className="py-12 md:py-20 px-4 bg-gradient-to-br from-[#1F4D46] to-[#1F4D46]/95 relative overflow-hidden">
+      <div className="absolute inset-0 opacity-[0.04]" style={{ backgroundImage: 'radial-gradient(#F47C20 1.5px, transparent 1.5px)', backgroundSize: '24px 24px' }}></div>
 
-      <div className="max-w-6xl mx-auto relative z-10 flex flex-col lg:flex-row items-center gap-10 lg:gap-16">
+      <div className="max-w-3xl mx-auto text-center relative z-10">
+        <h2 className="text-2xl md:text-4xl lg:text-5xl font-black text-white leading-tight">
+          {heading}
+        </h2>
+        <p className="text-white/70 text-base md:text-lg font-medium max-w-xl mx-auto mt-4">
+          {copy}
+        </p>
 
-        {/* Text Content */}
-        <div className="w-full lg:w-1/2 text-center lg:text-left space-y-6">
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-white leading-tight">
-            {heading}
-          </h2>
-          <p className="text-white/90 text-base md:text-lg font-medium max-w-xl mx-auto lg:mx-0">
-            {copy}
+        <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3">
+          <button onClick={onOpenModal} className="inline-flex items-center gap-2 bg-[#F47C20] text-white font-bold text-sm md:text-base px-8 py-4 rounded-full shadow-xl hover:bg-[#E56E16] hover:shadow-2xl hover:scale-[1.03] transition-all duration-300">
+            {ctaText} <ArrowRight className="w-4 h-4" />
+          </button>
+        </div>
+
+        {subText && (
+          <p className="text-white/40 text-xs font-medium mt-4">
+            {subText}
           </p>
-
-          <ul className="text-white space-y-3 font-bold text-sm md:text-base hidden md:block mt-6">
-            {points.map((point, i) => (
-              <li key={i} className="flex items-center justify-center lg:justify-start">
-                <CheckCircle className="w-5 h-5 mr-3 text-white" /> {point}
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        {/* Connected LeadForm Component */}
-        <div className="w-full lg:w-1/2 max-w-md mx-auto lg:mx-0 lg:ml-auto bg-white p-6 md:p-8 rounded-[2rem] shadow-2xl border border-gray-100">
-          <LeadForm
-            mode="book"
-            location="final_cta"
-            formTitle="Book Your Consultation"
-            formSubtitle="Priority slots available for local residents."
-            buttonText="Book Your Consultation"
-            {...(concernOptions ? { concernOptions } : {})}
-          />
-        </div>
-
+        )}
       </div>
     </section>
   );

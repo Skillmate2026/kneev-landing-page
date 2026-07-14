@@ -1,25 +1,18 @@
-import { CheckCircle } from 'lucide-react';
-
-/**
- * "What We Treat" services strip.
- * @param {{ heading: string, items: string[] }} props
- */
 export default function ServicesSection({ heading, items }) {
   return (
-    <section className="py-8 md:py-12 px-4 bg-[#FDFCF8] border-b border-gray-100">
-      <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-6 md:mb-8">
-          <span className="text-[#E97724] font-bold text-xs uppercase tracking-widest">What We Treat</span>
-          <h2 className="text-xl md:text-2xl lg:text-3xl font-black text-[#1A332F] mt-1.5">{heading}</h2>
+    <section className="py-8 md:py-14 px-4 bg-[#F8F8F6] border-b border-gray-100">
+      <div className="max-w-3xl mx-auto">
+        <div className="text-center mb-6">
+          <h2 className="text-xl md:text-3xl font-black text-[#1F4D46]">{heading}</h2>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4">
+        <ul className="space-y-2">
           {items.map((item, i) => (
-            <div key={i} className="flex items-center gap-3 bg-white border border-gray-100 rounded-xl px-4 py-3.5 shadow-sm hover:border-[#E97724]/30 transition-colors duration-300">
-              <CheckCircle className="w-5 h-5 text-[#E97724] flex-shrink-0" />
-              <span className="font-bold text-sm md:text-[15px] text-[#1A332F]">{item}</span>
-            </div>
+            <li key={i} className="flex items-start gap-2.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#F47C20] flex-shrink-0 mt-2" />
+              <span className="text-sm md:text-base text-gray-700 font-medium leading-relaxed">{item}</span>
+            </li>
           ))}
-        </div>
+        </ul>
       </div>
     </section>
   );

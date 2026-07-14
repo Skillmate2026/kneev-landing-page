@@ -1,7 +1,7 @@
 "use client";
 
 import React from 'react';
-import { CalendarCheck } from 'lucide-react';
+
 import LeadModal from '../LeadModal';
 import { setFormInteracted } from '../popup/useAppointmentPopup';
 import { pushDataLayer } from '../../lib/leads';
@@ -20,7 +20,7 @@ const CONSULT_CONCERNS = [
  * Fixed bottom-right action buttons (Book / WhatsApp / Phone) shown on every page.
  * Owns the lead-capture modal that opens when Book or WhatsApp is clicked.
  */
-export default function FloatingButtons({ hideBookCta = false }) {
+export default function FloatingButtons() {
   // { mode: "whatsapp" | "book", location: string } | null
   const [modal, setModal] = React.useState(null);
 
@@ -34,11 +34,6 @@ export default function FloatingButtons({ hideBookCta = false }) {
     setFormInteracted();
     pushDataLayer({ event: "whatsapp_click", cta_location: location });
     setModal({ mode: "whatsapp", location });
-  };
-
-  const handleCallClick = (location) => {
-    pushDataLayer({ event: "call_click", cta_location: location });
-    // the tel: anchor still dials natively
   };
 
   return (
