@@ -3,6 +3,7 @@
 import Script from 'next/script';
 
 import LeadModal from '@/components/LeadModal';
+import { setFormInteracted } from '@/components/popup/useAppointmentPopup';
 import HeroSection from '@/components/sections/HeroSection';
 import TrustStrip from '@/components/sections/TrustStrip';
 import InstantTrustSection from '@/components/sections/InstantTrustSection';
@@ -21,6 +22,16 @@ import * as content from '@data/roboticKnee';
 export default function HomePage() {
   const [modal, setModal] = React.useState(null);
 
+  const openBook = (location) => {
+    setFormInteracted();
+    pushDataLayer({ event: "book_appointment_click", cta_location: location });
+    setModal({ mode: "book", location });
+  };
+
+  const handleCallClick = (location) => {
+    pushDataLayer({ event: "call_click", cta_location: location });
+  };
+
   return (
     <main className="min-h-screen bg-[#F8F8F6] selection:bg-[#F47C20] selection:text-white font-sans overflow-x-hidden">
       <Script id="schema-markup" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaMarkup) }} />
@@ -36,7 +47,7 @@ export default function HomePage() {
       <FaqSection faqs={content.faqs} />
       <FinalCtaSection {...content.finalCta} onOpenModal={() => setModal({ mode: "book", location: "final_cta" })} />
 
-      <LeadModal data={modal} onClose={() => setModal(null)} concernOptions={content.CONCERN_OPTIONS} />
+      <LeadModal data={modal} onClose={() => setModal(null)} concernOptions={CONSULT_CONCERNS} />
     </main>
   );
 }
