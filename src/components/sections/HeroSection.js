@@ -1,70 +1,32 @@
-import { Star, CheckCircle } from 'lucide-react';
-import LeadForm from '@/components/LeadForm';
+import { ArrowRight } from 'lucide-react';
 
-/**
- * Hero with headline, lead-capture form and trust chips.
- * @param {{ badge: string, headline: string, headlineAccent: string,
- *   subcopy: string, trustChips: string[], concernOptions?: string[] }} props
- */
-export default function HeroSection({ badge, headline, headlineAccent, subcopy, trustChips, concernOptions }) {
+export default function HeroSection({ headline, headlineAccent, subcopy, ctaPrimary, ctaSecondary, onOpenModal }) {
   return (
-    <section
-      className="relative pt-10 pb-12 md:pt-16 md:pb-20 px-4 bg-cover bg-center bg-no-repeat"
-      style={{ backgroundImage: "url('/hero-knee.webp')" }}
-    >
-      {/* Premium Brand-Aligned Gradient Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-b md:bg-gradient-to-r from-[#1A332F] via-[#1A332F]/90 to-[#1A332F]/40 z-0"></div>
+    <section className="relative pt-12 pb-14 md:pt-20 md:pb-24 px-4 overflow-hidden bg-[#162126]"
+      style={{ backgroundImage: 'url(/hero-section-robotic.webp)', backgroundSize: 'cover', backgroundPosition: 'center' }}>
+      <div className="absolute inset-0 bg-gradient-to-r from-[#162126]/90 via-[#162126]/75 to-[#162126]/50 z-0"></div>
 
-      <div className="max-w-7xl mx-auto grid lg:grid-cols-12 gap-8 md:gap-12 items-center relative z-10">
+      <div className="max-w-7xl mx-auto relative z-10">
+        <div className="max-w-3xl mx-auto space-y-7 text-center">
 
-        {/* Left Content */}
-        <div className="lg:col-span-7 space-y-5 text-center md:text-left">
-          <div className="inline-flex items-center text-[#E97724] font-bold text-[11px] md:text-sm tracking-wide uppercase bg-white/10 backdrop-blur-sm border border-white/20 px-4 py-1.5 rounded-full">
-            {badge}
-          </div>
-
-          <h1 className="text-3xl sm:text-4xl lg:text-[3.25rem] font-black text-white leading-[1.12] tracking-tight">
-            {headline} <br className="hidden lg:block"/>
-            <span className="text-[#E97724]">{headlineAccent}</span>
+          <h1 className="text-[1.8rem] sm:text-4xl lg:text-[3.5rem] font-black text-white leading-[1.1] tracking-tight">
+            {headline}<br/>
+            {headlineAccent}
           </h1>
 
-          <p className="text-base md:text-lg text-white/80 leading-relaxed max-w-2xl mx-auto md:mx-0 font-medium">
+          <p className="text-sm md:text-lg text-[#E8E8E8] leading-relaxed max-w-2xl mx-auto font-medium">
             {subcopy}
           </p>
 
-          {/* Google Rating Badge - Glassmorphism style */}
-          <div className="inline-flex items-center bg-white/10 backdrop-blur-md px-4 py-2 rounded-full border border-white/20 mt-2 shadow-lg">
-            <span className="font-black text-white mr-2">4.9</span>
-            <div className="flex mr-2">
-              {[...Array(5)].map((_, i) => <Star key={i} className="w-4 h-4 text-[#FFC107] fill-[#FFC107]" />)}
-            </div>
-            <span className="text-xs font-bold text-white/70 uppercase tracking-wide border-l border-white/30 pl-2">Google Reviews</span>
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 justify-center">
+            <button onClick={onOpenModal} className="inline-flex items-center justify-center gap-2 bg-[#F47C20] text-white font-bold text-sm md:text-base px-7 md:px-8 py-3.5 md:py-4 rounded-full shadow-xl hover:bg-[#E56E16] hover:shadow-2xl hover:scale-[1.03] transition-all duration-300">
+              {ctaPrimary || `Book Consultation`} <ArrowRight className="w-4 h-4" />
+            </button>
+            <button onClick={onOpenModal} className="inline-flex items-center justify-center gap-2 bg-white text-[#1F4D46] font-bold text-sm md:text-base px-7 md:px-8 py-3.5 md:py-4 rounded-full shadow-lg border-2 border-[#F47C20] hover:shadow-xl hover:scale-[1.03] transition-all duration-300">
+              {ctaSecondary || `Get a Second Opinion`}
+            </button>
           </div>
-        </div>
 
-        {/* Right Lead Form - Kept white to pop against the dark image overlay */}
-        <div id="booking-form" className="lg:col-span-5 relative w-full max-w-md mx-auto lg:ml-auto mt-6 lg:mt-0">
-          <div className="bg-white p-6 rounded-3xl shadow-2xl border border-gray-100 relative z-10">
-            {/* Delegating Form Logic to LeadForm Component */}
-            <LeadForm
-              mode="book"
-              location="hero_form"
-              formTitle="Book Your Consultation"
-              formSubtitle="Priority slots available for local residents."
-              buttonText="Book Your Consultation"
-              {...(concernOptions ? { concernOptions } : {})}
-            />
-          </div>
-        </div>
-
-        {/* Trust Chips - sit below the form */}
-        <div className="lg:col-span-12 grid grid-cols-1 sm:grid-cols-3 gap-3 mt-8 w-full">
-          {trustChips.map((badge, i) => (
-            <div key={i} className="flex items-center space-x-2 text-left bg-white/5 p-3 rounded-lg border border-white/10 shadow-sm">
-              <CheckCircle className="w-5 h-5 text-[#E97724] flex-shrink-0" />
-              <span className="font-bold text-sm text-white/95">{badge}</span>
-            </div>
-          ))}
         </div>
       </div>
     </section>
