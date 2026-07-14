@@ -37,6 +37,16 @@ yarn-error.log*
 # vercel
 .vercel
 
+# local dev / screenshots
+*.snapshot.txt
+/desktop-doctor*.png
+/screenshot.png
+/general-consultation.png
+
+# nested repos
+/hsr-urology-landing/
+/kneev-landing-page/
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts

@@ -3,6 +3,7 @@
 import React from 'react';
 import Script from 'next/script';
 
+import LeadModal from '@/components/LeadModal';
 import SocialProofBar from '@/components/sections/SocialProofBar';
 import ServicesSection from '@/components/sections/ServicesSection';
 import DoctorSection from '@/components/sections/DoctorSection';
@@ -18,11 +19,15 @@ import FinalCtaSection from './sections/FinalCtaSection';
 
 import { pushDataLayer } from '@/lib/leads';
 import { schemaMarkup } from '@data/clinic';
-import * as content from './content';
+import { CONSULT_CONCERNS } from '@data/concerns';
+import * as content from '@data/home';
 
 export default function GeneralConsultationPage() {
+  const [modal, setModal] = React.useState(null);
+
   const openBook = (location) => {
     pushDataLayer({ event: "book_appointment_click", cta_location: location });
+    setModal({ mode: "book", location });
   };
 
   const handleCallClick = (location) => {
@@ -33,7 +38,7 @@ export default function GeneralConsultationPage() {
     <main className="min-h-screen bg-[#FDFCF8] selection:bg-[#E97724] selection:text-white font-sans overflow-x-hidden pb-16 md:pb-0">
       <Script id="schema-markup" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaMarkup) }} />
 
-      <HeroSection {...content.hero} concernOptions={content.CONCERN_OPTIONS} />
+      <HeroSection {...content.hero} concernOptions={CONSULT_CONCERNS} />
       <SocialProofBar stats={content.stats} />
       <ServicesSection {...content.services} />
       <DoctorSection {...content.doctor} />
@@ -44,7 +49,9 @@ export default function GeneralConsultationPage() {
       <TestimonialsSection {...content.testimonials} />
       <ClinicInfoSection heading={content.clinicHeading} onCall={handleCallClick} />
       <FaqSection faqs={content.faqs} />
-      <FinalCtaSection {...content.finalCta} concernOptions={content.CONCERN_OPTIONS} />
+      <FinalCtaSection {...content.finalCta} concernOptions={CONSULT_CONCERNS} />
+
+      <LeadModal data={modal} onClose={() => setModal(null)} concernOptions={CONSULT_CONCERNS} />
     </main>
   );
 }
