@@ -16,6 +16,7 @@ import FaqSection from '@/components/sections/FaqSection';
 import FinalCtaSection from '@/components/sections/FinalCtaSection';
 
 import React from 'react';
+import { CONSULT_CONCERNS } from '@data/concerns';
 import { schemaMarkup } from '@data/clinic';
 import * as content from '@data/roboticKnee';
 
