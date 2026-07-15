@@ -10,8 +10,6 @@ export default function AppointmentPopup() {
     <FormPopup
       show={showPopup}
       onClose={() => setShowPopup(false)}
-      title="Book Your Consultation"
-      subtitle="Priority slots available for local residents."
     >
       <LeadForm
         mode="book"
