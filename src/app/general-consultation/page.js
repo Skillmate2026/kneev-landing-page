@@ -37,6 +37,7 @@ export default function GeneralConsultationPage() {
   return (
     <main className="min-h-screen bg-[#FDFCF8] selection:bg-[#E97724] selection:text-white font-sans overflow-x-hidden pb-16 md:pb-0">
       <Script id="schema-markup" type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaMarkup) }} />
+      <title>Orthopaedic Clinic in Jayanagar | Kneev Orthopaedic Centre</title>
 
       <HeroSection {...content.hero} form={content.appointmentForm} onOpenBook={openBook} onCall={handleCallClick} />
       <TrustSection {...content.trust} />
