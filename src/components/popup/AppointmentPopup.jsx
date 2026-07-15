@@ -4,7 +4,7 @@ import FormPopup from './FormPopup';
 import LeadForm from '../LeadForm';
 
 export default function AppointmentPopup() {
-  const { showPopup, setShowPopup } = useAppointmentPopup();
+  const { showPopup, setShowPopup } = useAppointmentPopup(10000);
 
   return (
     <FormPopup
@@ -16,7 +16,6 @@ export default function AppointmentPopup() {
       <LeadForm
         mode="book"
         location="auto_popup"
-        formTitle="Book Your Consultation"
         buttonText="Book Your Consultation"
       />
     </FormPopup>

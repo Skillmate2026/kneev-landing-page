@@ -1,6 +1,7 @@
 "use client";
 
 import React from 'react';
+import { CalendarCheck } from 'lucide-react';
 
 import LeadModal from '../LeadModal';
 import { setFormInteracted } from '../popup/useAppointmentPopup';
@@ -17,41 +18,31 @@ const CONSULT_CONCERNS = [
 ];
 
 /**
- * Fixed bottom-right action buttons (Book / WhatsApp / Phone) shown on every page.
- * Owns the lead-capture modal that opens when Book or WhatsApp is clicked.
+ * Fixed sticky bottom bar ("Book Consultation" button) shown on every page.
+ * Owns the lead-capture modal that opens when the button is clicked.
  */
 export default function FloatingButtons() {
-  // { mode: "whatsapp" | "book", location: string } | null
   const [modal, setModal] = React.useState(null);
 
-  const openBook = (location) => {
+  const openBook = () => {
     setFormInteracted();
-    pushDataLayer({ event: "book_appointment_click", cta_location: location });
-    setModal({ mode: "book", location });
-  };
-
-  const openWhatsApp = (location) => {
-    setFormInteracted();
-    pushDataLayer({ event: "whatsapp_click", cta_location: location });
-    setModal({ mode: "whatsapp", location });
+    pushDataLayer({ event: "book_appointment_click", cta_location: "sticky_bar" });
+    setModal({ mode: "book", location: "sticky_bar" });
   };
 
   return (
     <>
-      <div className="fixed bottom-6 right-4 md:right-6 z-50 flex flex-col gap-3 md:gap-4">
-
-        {/* Phone Button */}
-        <a
-          href="tel:+916366700736"
-          onClick={() => handleCallClick("floating_button")}
-          aria-label="Call Clinic"
-          className="w-12 h-12 md:w-14 md:h-14 bg-[#E97724] text-white rounded-full flex items-center justify-center shadow-[0_4px_15px_rgba(26,51,47,0.3)] hover:scale-110 transition-transform duration-300"
+      <div className="fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-gray-200 shadow-[0_-4px_20px_rgba(0,0,0,0.1)]">
+        <button
+          onClick={openBook}
+          className="w-full flex items-center justify-center gap-2 py-4 bg-[#F47C20] text-white font-bold text-sm md:text-base hover:bg-[#E06A18] transition-colors"
         >
-          <svg className="w-5 h-5 md:w-6 md:h-6" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
-          </svg>
-        </a>
+          <CalendarCheck className="w-5 h-5" />
+          Book Your Consultation
+        </button>
       </div>
+
+      <LeadModal data={modal} onClose={() => setModal(null)} concernOptions={CONSULT_CONCERNS} />
     </>
   );
 }
