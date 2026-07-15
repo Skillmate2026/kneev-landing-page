@@ -1,60 +1,82 @@
-import { Star, CheckCircle } from 'lucide-react';
+import { Star, CheckCircle, ArrowRight, Phone } from 'lucide-react';
 import LeadForm from '@/components/LeadForm';
 
-export default function HeroSection({ badge, headline, headlineAccent, subcopy, trustChips, concernOptions }) {
+export default function HeroSection({ badge, headline, headlineAccent, subcopy, features, ctaPrimary, ctaSecondary, phoneHref, trustBar, onOpenBook, onCall, form }) {
   return (
-    <section
-      className="relative pt-10 pb-12 md:pt-16 md:pb-20 px-4 bg-cover bg-center bg-no-repeat"
-      style={{ backgroundImage: "url('/hero-knee.webp')" }}
-    >
-      <div className="absolute inset-0 bg-gradient-to-b md:bg-gradient-to-r from-[#1A332F] via-[#1A332F]/90 to-[#1A332F]/40 z-0"></div>
+    <section className="relative pt-12 pb-12 md:pt-20 md:pb-24 px-4 bg-white">
+      <div className="max-w-7xl mx-auto relative z-10 grid lg:grid-cols-12 gap-8 md:gap-12 items-start">
 
-      <div className="max-w-7xl mx-auto grid lg:grid-cols-12 gap-8 md:gap-12 items-center relative z-10">
+        {/* LEFT COLUMN — Hero copy */}
+        <div className="lg:col-span-7 space-y-5 md:space-y-6 text-center lg:text-left">
 
-        <div className="lg:col-span-7 space-y-5 text-center md:text-left">
-          <div className="inline-flex items-center text-[#E97724] font-bold text-[11px] md:text-sm tracking-wide uppercase bg-white/10 backdrop-blur-sm border border-white/20 px-4 py-1.5 rounded-full">
+          <div className="text-[#E97724] font-bold text-[11px] md:text-xs tracking-[0.18em] uppercase">
             {badge}
           </div>
 
-          <h1 className="text-3xl sm:text-4xl lg:text-[3.25rem] font-black text-white leading-[1.12] tracking-tight">
-            {headline} <br className="hidden lg:block"/>
-            <span className="text-[#E97724]">{headlineAccent}</span>
+          <h1 className="text-4xl sm:text-5xl lg:text-[3.5rem] xl:text-[4rem] font-black text-[#1A332F] leading-[1.1] tracking-tight">
+            {headline} <br />
+            <span className="font-black text-[#1A332F]">{headlineAccent}</span>
           </h1>
 
-          <p className="text-base md:text-lg text-white/80 leading-relaxed max-w-2xl mx-auto md:mx-0 font-medium">
+          <div className="flex flex-wrap justify-center lg:justify-start gap-2 md:gap-3">
+            {features.map((f, i) => {
+              const palette = [
+                'bg-yellow-100 text-yellow-800 border-yellow-200',
+                'bg-red-100 text-red-800 border-red-200',
+                'bg-blue-100 text-blue-800 border-blue-200',
+              ];
+              return (
+                <span
+                  key={i}
+                  className={`inline-flex items-center gap-1.5 font-bold text-xs md:text-sm border px-3.5 py-2 rounded-full ${palette[i]}`}
+                >
+                  <CheckCircle className="w-3.5 h-3.5" />
+                  {f}
+                </span>
+              );
+            })}
+          </div>
+
+          <p className="text-sm md:text-base text-gray-700 leading-relaxed font-medium max-w-2xl mx-auto lg:mx-0">
             {subcopy}
           </p>
 
-          <div className="inline-flex items-center bg-white/10 backdrop-blur-md px-4 py-2 rounded-full border border-white/20 mt-2 shadow-lg">
-            <span className="font-black text-white mr-2">4.9</span>
-            <div className="flex mr-2">
-              {[...Array(5)].map((_, i) => <Star key={i} className="w-4 h-4 text-[#FFC107] fill-[#FFC107]" />)}
-            </div>
-            <span className="text-xs font-bold text-white/70 uppercase tracking-wide border-l border-white/30 pl-2">Google Reviews</span>
+          <div className="flex flex-col sm:flex-row items-center lg:items-start gap-3 pt-1">
+            <button
+              onClick={() => onOpenBook?.("hero_primary")}
+              className="inline-flex items-center gap-2 bg-[#1A332F] text-white font-bold text-sm md:text-base px-8 py-3.5 rounded-full shadow-lg hover:bg-[#0f2420] transition-all"
+            >
+              {ctaPrimary} <ArrowRight className="w-4 h-4" />
+            </button>
+            <a
+              href={phoneHref}
+              onClick={() => onCall?.("hero_secondary")}
+              className="inline-flex items-center gap-2 border-2 border-[#1A332F] text-[#1A332F] font-bold text-sm md:text-base px-8 py-3.5 rounded-full hover:bg-[#1A332F]/5 transition-all"
+            >
+              <Phone className="w-4 h-4" /> {ctaSecondary}
+            </a>
+          </div>
+
+          <div className="inline-flex items-center gap-2 text-[#E97724] font-bold text-xs md:text-sm">
+            <Star className="w-4 h-4 fill-[#FFC107] text-[#FFC107]" />
+            {trustBar}
           </div>
         </div>
 
-        <div id="booking-form" className="lg:col-span-5 relative w-full max-w-md mx-auto lg:ml-auto mt-6 lg:mt-0">
-          <div className="bg-white p-6 rounded-3xl shadow-2xl border border-gray-100 relative z-10">
+        {/* RIGHT COLUMN — Appointment form */}
+        <div className="lg:col-span-5 w-full max-w-md mx-auto lg:ml-auto mt-4 lg:mt-0">
+          <div className="bg-white p-5 md:p-6 rounded-[1.75rem] shadow-[0_8px_40px_rgb(0,0,0,0.08)] border border-gray-100">
             <LeadForm
               mode="book"
               location="hero_form"
-              formTitle="Book Your Consultation"
-              formSubtitle="Priority slots available for local residents."
-              buttonText="Book Your Consultation"
-              {...(concernOptions ? { concernOptions } : {})}
+              formTitle={form.title}
+              formSubtitle={form.subtitle}
+              buttonText={form.buttonText}
+              concernOptions={form.concerns}
             />
           </div>
         </div>
 
-        <div className="lg:col-span-12 grid grid-cols-1 sm:grid-cols-3 gap-3 mt-8 w-full">
-          {trustChips.map((badge, i) => (
-            <div key={i} className="flex items-center space-x-2 text-left bg-white/5 p-3 rounded-lg border border-white/10 shadow-sm">
-              <CheckCircle className="w-5 h-5 text-[#E97724] flex-shrink-0" />
-              <span className="font-bold text-sm text-white/95">{badge}</span>
-            </div>
-          ))}
-        </div>
       </div>
     </section>
   );

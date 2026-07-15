@@ -1,9 +1,9 @@
 "use client";
 
 import { useRef, useState, useEffect, useCallback } from 'react';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight, ArrowRight, Star } from 'lucide-react';
 
-export default function TestimonialsSection({ heading, items }) {
+export default function TestimonialsSection({ heading, subcopy, items, reviewCta }) {
   const scrollRef = useRef(null);
   const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -50,9 +50,15 @@ export default function TestimonialsSection({ heading, items }) {
           <h2 className="text-2xl md:text-4xl lg:text-4xl font-black text-[#1F4D46] leading-tight">
             {heading}
           </h2>
-          <p className="text-sm md:text-base text-gray-500 font-medium max-w-xl mx-auto">
-            Real Google reviews from your neighbours across South Bengaluru.
-          </p>
+          {subcopy ? (
+            <p className="text-sm md:text-base text-gray-500 font-medium max-w-xl mx-auto">
+              {subcopy}
+            </p>
+          ) : (
+            <p className="text-sm md:text-base text-gray-500 font-medium max-w-xl mx-auto">
+              Real Google reviews from your neighbours across South Bengaluru.
+            </p>
+          )}
         </div>
 
         <div className="relative">
@@ -74,6 +80,11 @@ export default function TestimonialsSection({ heading, items }) {
                 className="min-w-[280px] md:min-w-[340px] max-w-[340px] flex-shrink-0 snap-center bg-[#F8F8F6] p-6 md:p-8 rounded-2xl shadow-sm flex flex-col justify-between"
               >
                 <div>
+                  {tst.summary && (
+                    <p className="text-[#1F4D46] font-bold text-sm md:text-base mb-2">
+                      &ldquo;{tst.summary}&rdquo;
+                    </p>
+                  )}
                   <p className="text-gray-600 text-sm md:text-base font-medium leading-relaxed mb-6">&ldquo;{tst.text}&rdquo;</p>
                 </div>
 
@@ -111,6 +122,20 @@ export default function TestimonialsSection({ heading, items }) {
             ))}
           </div>
         </div>
+
+        {reviewCta && (
+          <div className="text-center mt-8">
+            <a
+              href="https://g.page/r/CWOD84f7X9pREAE/review"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 text-[#F47C20] font-bold text-sm hover:underline"
+            >
+              <Star className="w-4 h-4 fill-current" /> {reviewCta}
+              <ArrowRight className="w-4 h-4" />
+            </a>
+          </div>
+        )}
       </div>
     </section>
   );

@@ -9,36 +9,31 @@ import { ArrowRight } from 'lucide-react';
  */
 export default function DayOneSection({ steps, onBook }) {
   return (
-    <section className="py-10 md:py-16 px-4 bg-[#F3F6F4]">
+    <section className="py-10 md:py-14 px-4 bg-[#F3F6F4]">
       <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-10 md:mb-12">
+        <div className="text-center mb-8 md:mb-10">
           <span className="text-[#F47C20] font-bold text-xs uppercase tracking-widest">What To Expect On Day One</span>
-          <h2 className="text-2xl md:text-3xl lg:text-4xl font-black text-[#1F4D46] mt-2">A Simple, Stress-Free First Visit</h2>
+          <h2 className="text-2xl md:text-3xl font-black text-[#1F4D46] mt-2">A Simple, Stress-Free First Visit</h2>
         </div>
 
         <div className="relative max-w-5xl mx-auto">
           {/* Desktop horizontal connector line */}
-          <div className="hidden lg:block absolute top-7 left-[12.5%] right-[12.5%] h-0.5 bg-[#1F4D46]/15" aria-hidden="true"></div>
+          <div className="hidden lg:block absolute top-5 left-[10%] right-[10%] h-0.5 bg-[#1F4D46]/15" aria-hidden="true"></div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-4 lg:gap-x-6">
-            {steps.map((step, idx, arr) => (
-              <div key={idx} className="relative flex lg:flex-col items-start lg:items-center text-left lg:text-center gap-4 lg:gap-0 pb-8 lg:pb-0 last:pb-0">
-                {/* Mobile vertical connector line */}
-                {idx !== arr.length - 1 && (
-                  <div className="lg:hidden absolute left-7 top-14 bottom-0 w-0.5 bg-[#1F4D46]/15" aria-hidden="true"></div>
-                )}
-                <div className="relative z-10 flex-shrink-0 w-14 h-14 rounded-full bg-[#1F4D46] text-white font-black text-lg flex items-center justify-center ring-8 ring-[#F3F6F4] shadow-md">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-y-8 gap-x-4">
+            {steps.map((step, idx) => (
+              <div key={idx} className="relative flex flex-col items-center text-center">
+                <div className="relative z-10 w-10 h-10 rounded-full bg-[#1F4D46] text-white font-black text-sm flex items-center justify-center ring-4 ring-[#F3F6F4] shadow-sm">
                   {idx + 1}
                 </div>
-                <div className="lg:mt-5">
-                  <h3 className="text-base md:text-lg font-bold text-[#1F4D46] mb-1.5">{step.title}</h3>
-                  <p className="text-sm text-gray-600 font-medium leading-relaxed lg:max-w-[220px] lg:mx-auto">{step.desc}</p>
-                </div>
+                <h3 className="text-sm font-bold text-[#1F4D46] mt-3 mb-1">{step.title}</h3>
+                <p className="text-xs text-gray-500 font-medium leading-relaxed">{step.desc}</p>
               </div>
             ))}
           </div>
         </div>
-        <div className="text-center mt-12">
+
+        <div className="text-center mt-10">
           <button onClick={() => onBook("day_one")} className="inline-flex items-center gap-2 bg-[#1F4D46] text-white font-bold text-sm md:text-base px-7 py-3.5 rounded-full shadow-lg hover:opacity-90 transition-all">
             Book Your Consultation <ArrowRight className="w-4 h-4" />
           </button>
